@@ -1,31 +1,42 @@
 import React, { Component } from 'react';
-import logo from '../logo.svg';
 import './App.css';
-import {Route} from 'react-router-dom'
+import {Route, withRouter} from 'react-router-dom';
+import {connect} from 'react-redux';
+import * as ActionTypes from '../actions';
+import Header from '../components/Header'
+import PostsList from '../components/PostsList';
+import Home from '../components/Home'
 
 
 
 class App extends Component {
-  componentDidMount(){
 
-  }
+  componentDidMount(){
+    this.props.getCategories();
+    this.props.getPosts();
+  };
+
   render() {
+
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Readable</h1>
-        </header>
 
-        <Route exact path="/" render={() => (
-          <div>
-            INSIDE APP BABY
-          </div>
-        )}/>
+        <Header/>
+
+        <Route exact path="/" component={Home}/>
+
+        <Route path="/:category" component={PostsList}/>
 
       </div>
     );
   }
 }
 
-export default App;
+
+
+const mapDispatchToProps = (dispatch) => ({
+  getCategories: () => dispatch(ActionTypes.fetchCategories()),
+  getPosts: (category) => dispatch(ActionTypes.fetchPosts(category)),
+});
+
+export default withRouter(connect(null, mapDispatchToProps)(App));
