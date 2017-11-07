@@ -70,6 +70,31 @@ const entities = (state = initialAppState.entities, action) =>{
         });
         return newState;
       }
+    case ActionTypes.VOTE_INITIATED:
+      return {
+        ...state,
+        posts:{
+          ...state.posts,
+          byId: {
+            ...state.posts.byId,
+            [action.postId]: {
+              ...state.posts.byId[action.postId],
+              isVoting: true
+            }
+          }
+        }
+      };
+    case ActionTypes.VOTE_COMPLETED:
+      return {
+        ...state,
+        posts:{
+          ...state.posts,
+          byId: {
+            ...state.posts.byId,
+            ...action.data.entities.posts
+          }
+        }
+      };
     default:
       return state;
   }

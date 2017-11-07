@@ -42,12 +42,10 @@ class PostsList extends Component {
       posts: sort(prevState.posts, sortBy)
     }));
   }
-  vote(postId, action){
-
-  }
 
   render(){
     const {posts, sortBy, isFetching } = this.state;
+    const {votePost} = this.props;
     return (
       <div style={{
         alignItems: 'center',
@@ -62,7 +60,7 @@ class PostsList extends Component {
             </select>
             <ul>{posts.map(p => (
               <li key={p.id}>
-                <Link to="/">{p.title}</Link> <button onClick={() => this.vote(p.id, 'upVote')}>+</button> <button onClick={() => this.vote(p.id, 'downVote')}>-</button>
+                <Link to="/">{p.title}</Link> <button disabled={p.isVoting} onClick={()=> votePost(p.id, 'upVote')}>+</button> <button disabled={p.isVoting} onClick={()=>votePost(p.id, 'downVote')}>-</button>
                 <p>Author: {p.author} - Comments: {p.commentCount} - Score: {p.voteScore}</p>
               </li>
             ))}</ul>
@@ -87,6 +85,7 @@ const mapStateToProps = ({entities, postsByCategory}, {match}) => {
 
 const mapDispatchToProps = (dispatch) => ({
   getPosts: (category) => dispatch(ActionTypes.fetchPosts(category)),
+  votePost: (postId, upOrDown) => dispatch(ActionTypes.votePost(postId, upOrDown))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(PostsList);

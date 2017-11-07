@@ -53,3 +53,23 @@ const shouldFetchPosts = (state, category) => {
   }
   return !state.entities.posts.isFetching
 };
+
+export const VOTE_INITIATED = 'VOTE_INITIATED';
+export const voteInitiated = (postId) => ({
+  type: VOTE_INITIATED,
+  postId
+});
+
+export const VOTE_COMPLETED = 'VOTE_COMPLETED';
+export const voteCompleted = (data) => ({
+  type: VOTE_COMPLETED,
+  data
+});
+
+export const votePost = (postId, upOrDown) => (dispatch) => {
+  dispatch(voteInitiated(postId));
+  return Api.votePost(postId, upOrDown).then((data) => {
+    console.log(data);
+    dispatch(voteCompleted(data))
+  })
+};

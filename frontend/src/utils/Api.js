@@ -6,7 +6,8 @@ const token = uuid4();
 
 const headers = {
   'Accept': 'application/json',
-  'Authorization': token
+  'Content-Type': 'application/json',
+  'Authorization': token,
 };
 
 const api = 'http://localhost:3001';
@@ -37,13 +38,13 @@ export const getPosts = (category = null) => {
     .then(posts => normalize(posts, [postSchema]))
 };
 
-// upvote or downvote a post
+// upVote or downVote a post
 export const votePost = (postId, action) => {
   return fetch(`${api}/posts/${postId}`, {
     headers,
     method: 'POST',
-    body: JSON.stringify({ action })
+    body: JSON.stringify({ option: action })
   })
     .then(res => res.json())
-    .then(data => data)
+    .then(post => normalize(post, postSchema))
 };
