@@ -9,24 +9,30 @@ import * as ActionTypes from '../actions';
 class PostsList extends Component {
 
   state = {
-    sortBy: 'timestamp',
-    category : null,
+    sortBy: 'voteScore',
     posts: [],
-    isFetching: true
+    isFetching: true,
+    selectedCategory: ''
   };
+
+  componentWillMount(){
+    this.setState({
+      selectedCategory: this.props.match && this.props.match.params && this.props.match.params.category
+    })
+  }
 
   componentDidMount(){
     this.setState((prevState, props) => ({
-      posts: props.posts,
-      isFetching: props.posts.length === 0
+      posts: sort(props.posts, prevState.sortBy),
+      isFetching: props.posts.length === 0 && props.isFetching // no need to show loading if there is ady preloaded posts
     }));
-    // this.props.getPosts(this.props.match ? this.props.match.params.category : '')
+    this.props.getPosts(this.state.selectedCategory)
   }
 
   componentWillReceiveProps(nextProps){
     this.setState((prevState, props) => ({
-      posts: nextProps.posts,
-      isFetching: nextProps.posts.length === 0
+      posts: sort(nextProps.posts, prevState.sortBy),
+      isFetching: nextProps.isFetching && prevState.posts.length === 0
     }));
   }
 
@@ -70,17 +76,14 @@ class PostsList extends Component {
 
 }
 
-const mapStateToProps = ({entities}, {match}) => (
-  {
-    posts : entities.posts.allIds.reduce((allPosts, pid) => {
-      match && match.params && match.params.category ?
-        (entities.posts.byId[pid].category === match.params.category ? allPosts.push(entities.posts.byId[pid]) : '')
-        :
-        allPosts.push(entities.posts.byId[pid]);
-      return allPosts
-    },[])
+const mapStateToProps = ({entities, postsByCategory}, {match}) => {
+  const category = match && match.params && match.params.category;
+  const postsIds = category ? (postsByCategory[category] ? postsByCategory[category].items : []) : entities.posts.allIds;
+  return {
+    posts:  postsIds.map(id => ({...entities.posts.byId[id]}) ),
+    isFetching: category ? (postsByCategory[category] ? postsByCategory[category].isFetching : true) : entities.posts.isFetching
   }
-);
+};
 
 const mapDispatchToProps = (dispatch) => ({
   getPosts: (category) => dispatch(ActionTypes.fetchPosts(category)),

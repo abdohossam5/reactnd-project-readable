@@ -10,6 +10,6 @@ const Header = () => (
       <h1 className="App-title">Readable</h1>
     </Link>
   </header>
-)
+);
 
 export default Header

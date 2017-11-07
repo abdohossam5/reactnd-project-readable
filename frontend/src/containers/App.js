@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './App.css';
 import {Route, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
-import * as ActionTypes from '../actions';
 import Header from '../components/Header'
 import PostsList from '../components/PostsList';
 import Home from '../components/Home'
@@ -10,11 +9,6 @@ import Home from '../components/Home'
 
 
 class App extends Component {
-
-  componentDidMount(){
-    this.props.getCategories();
-    this.props.getPosts();
-  };
 
   render() {
 
@@ -34,9 +28,7 @@ class App extends Component {
 
 
 
-const mapDispatchToProps = (dispatch) => ({
-  getCategories: () => dispatch(ActionTypes.fetchCategories()),
-  getPosts: (category) => dispatch(ActionTypes.fetchPosts(category)),
-});
 
-export default withRouter(connect(null, mapDispatchToProps)(App));
+// used withRouter to overcome update blocking
+// https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
+export default withRouter(connect()(App));
