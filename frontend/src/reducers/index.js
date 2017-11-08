@@ -42,7 +42,7 @@ const entities = (state = initialAppState.entities, action) =>{
         }
       }
       return state;
-    case ActionTypes.RECEIVED_POSTS:
+    case ActionTypes.RECEIVED_POSTS:{
       if (!action.category) {
         return {
           ...state,
@@ -70,6 +70,7 @@ const entities = (state = initialAppState.entities, action) =>{
         });
         return newState;
       }
+    }
     case ActionTypes.VOTE_INITIATED:
       return {
         ...state,
@@ -85,6 +86,10 @@ const entities = (state = initialAppState.entities, action) =>{
         }
       };
     case ActionTypes.DELETE_POST_COMPLETED:
+      let newState = {...state};
+      delete newState.posts.byId[action.postId];
+      newState.posts.allIds = newState.posts.allIds.filter(id => id !== action.postId);
+      return newState;
     case ActionTypes.VOTE_COMPLETED:
       return {
         ...state,
@@ -96,6 +101,20 @@ const entities = (state = initialAppState.entities, action) =>{
           }
         }
       };
+    case ActionTypes.RECEIVED_POST_DETAILS:{
+      let newState = {
+        ...state,
+        posts:{
+          ...state.posts,
+          byId: {
+            ...state.posts.byId,
+            ...action.data.entities.posts
+          }
+        }
+      };
+      if(newState.posts.allIds.indexOf(action.postId) < 0) newState.posts.allIds.push(action.postId);
+      return newState;
+    }
     default:
       return state;
   }
@@ -103,7 +122,7 @@ const entities = (state = initialAppState.entities, action) =>{
 
 const postsByCategory = (state = initialAppState.postsByCategory, action) => {
   switch (action.type){
-    case ActionTypes.RECEIVED_CATEGORIES:
+    case ActionTypes.RECEIVED_CATEGORIES:{
       let newState =  {
         ...state,
       };
@@ -111,6 +130,7 @@ const postsByCategory = (state = initialAppState.postsByCategory, action) => {
         if(!newState.hasOwnProperty(c)) newState[c] = {items:[], isFetching: false}
       });
       return newState;
+    }
     case ActionTypes.FETCHING_POSTS:
       if(action.category){
         return {
@@ -150,6 +170,29 @@ const postsByCategory = (state = initialAppState.postsByCategory, action) => {
 
         return newState;
       }
+    case ActionTypes.RECEIVED_POST_DETAILS:{
+      const postId = action.postId,
+        postCategory = action.data.entities.posts[postId].category;
+      return {
+        ...state,
+        [postCategory] : {
+          ...state[postCategory],
+          items: (state[postCategory] && state[postCategory].items) ?
+            ( (state[postCategory].items.indexOf(postId) >= 0) ? (state[postCategory].items) : [...state[postCategory].items, postId])
+             :
+            ([postId])
+        }
+      };
+    }
+    case ActionTypes.DELETE_POST_COMPLETED:
+      const postCategory = action.data.entities.posts[action.postId].category;
+      return {
+        ...state,
+        [postCategory]:{
+          ...state[postCategory],
+          items: state[postCategory].items.filter(id => id !== action.postId)
+        }
+      };
     default:
       return state;
   }

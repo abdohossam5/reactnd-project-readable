@@ -4,7 +4,8 @@ import {Route, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import Header from '../components/Header'
 import PostsList from '../components/PostsList';
-import Home from '../components/Home'
+import PostDetails from '../components/PostDetails';
+import Home from '../components/Home';
 
 
 
@@ -19,7 +20,9 @@ class App extends Component {
 
         <Route exact path="/" component={Home}/>
 
-        <Route path="/:category" component={PostsList}/>
+        <Route exact path="/:category" component={PostsList}/>
+
+        <Route path="/:category/:postId" component={PostDetails}/>
 
       </div>
     );

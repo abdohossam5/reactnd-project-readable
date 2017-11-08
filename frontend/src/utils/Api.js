@@ -38,6 +38,12 @@ export const getPosts = (category = null) => {
     .then(res => res.json())
     .then(posts => normalize(posts, [postSchema]))
 };
+// get single post
+export const getPostById = (id) => {
+  return fetch(`${api}/posts/${id}`, {headers})
+    .then(res => res.json())
+    .then(post => normalize(post, postSchema))
+};
 
 // upVote or downVote a post
 export const votePost = (postId, option) => {

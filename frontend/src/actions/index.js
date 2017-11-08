@@ -54,6 +54,18 @@ const shouldFetchPosts = (state, category) => {
   return !state.entities.posts.isFetching
 };
 
+export const RECEIVED_POST_DETAILS = 'RECEIVED_POST_DETAILS';
+export const receivedPostDetails = (postId, data) => ({
+  type: RECEIVED_POST_DETAILS,
+  postId,
+  data
+});
+
+export const fetchPostById = (id) => (dispatch) => {
+  return Api.getPostById(id)
+    .then((data) => dispatch(receivedPostDetails(id, data)))
+};
+
 export const VOTE_INITIATED = 'VOTE_INITIATED';
 export const voteInitiated = (postId) => ({
   type: VOTE_INITIATED,
@@ -73,12 +85,13 @@ export const votePost = (postId, upOrDown) => (dispatch) => {
 };
 
 export const DELETE_POST_COMPLETED = 'DELETE_POST_COMPLETED';
-export const deleteCompleted = (data) => ({
+export const deleteCompleted = (postId, data) => ({
   type: DELETE_POST_COMPLETED,
+  postId,
   data
 });
 
 export const deletePost = (postId) => (dispatch) => {
   return Api.deletePost(postId)
-    .then((data) => dispatch(deleteCompleted(data)))
+    .then((data) => dispatch(deleteCompleted(postId, data)))
 };

@@ -63,7 +63,8 @@ class PostsList extends Component {
           <ul>{posts.map(p => (
             <li key={p.id}>
               <Post
-                post={p}
+                postId={p.id}
+                location = {this.props.location}
                 viewMode="overview"
               />
             </li>
