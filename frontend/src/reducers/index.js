@@ -84,6 +84,7 @@ const entities = (state = initialAppState.entities, action) =>{
           }
         }
       };
+    case ActionTypes.DELETE_POST_COMPLETED:
     case ActionTypes.VOTE_COMPLETED:
       return {
         ...state,

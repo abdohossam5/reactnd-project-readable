@@ -2,7 +2,8 @@ import uuid4 from 'uuid/v4';
 import { normalize, schema } from 'normalizr';
 
 // APi Constants
-const token = uuid4();
+const token = localStorage.getItem('token') ||  uuid4();
+localStorage.setItem('token', token);
 
 const headers = {
   'Accept': 'application/json',
@@ -39,11 +40,21 @@ export const getPosts = (category = null) => {
 };
 
 // upVote or downVote a post
-export const votePost = (postId, action) => {
+export const votePost = (postId, option) => {
   return fetch(`${api}/posts/${postId}`, {
     headers,
     method: 'POST',
-    body: JSON.stringify({ option: action })
+    body: JSON.stringify({ option })
+  })
+    .then(res => res.json())
+    .then(post => normalize(post, postSchema))
+};
+
+// delete a post (sets the deleted flag on the post and parent deleted on comments
+export const deletePost = (postId) => {
+  return fetch(`${api}/posts/${postId}`, {
+    headers,
+    method: 'DELETE'
   })
     .then(res => res.json())
     .then(post => normalize(post, postSchema))

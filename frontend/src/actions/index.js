@@ -68,8 +68,17 @@ export const voteCompleted = (data) => ({
 
 export const votePost = (postId, upOrDown) => (dispatch) => {
   dispatch(voteInitiated(postId));
-  return Api.votePost(postId, upOrDown).then((data) => {
-    console.log(data);
-    dispatch(voteCompleted(data))
-  })
+  return Api.votePost(postId, upOrDown)
+    .then((data) => dispatch(voteCompleted(data)))
+};
+
+export const DELETE_POST_COMPLETED = 'DELETE_POST_COMPLETED';
+export const deleteCompleted = (data) => ({
+  type: DELETE_POST_COMPLETED,
+  data
+});
+
+export const deletePost = (postId) => (dispatch) => {
+  return Api.deletePost(postId)
+    .then((data) => dispatch(deleteCompleted(data)))
 };
