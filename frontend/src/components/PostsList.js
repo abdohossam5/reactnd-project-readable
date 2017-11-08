@@ -12,10 +12,7 @@ class PostsList extends Component {
     sortBy: 'voteScore',
     posts: [],
     isFetching: true,
-    selectedCategory: '',
-    isConfirmationModalOpen: false,
-    postToDelete: null,
-    isDeletingPost: false
+    selectedCategory: ''
   };
 
   componentWillMount(){
