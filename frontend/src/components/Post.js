@@ -9,15 +9,6 @@ import {getReadableDate} from "../utils/Helpers";
 
 class Post extends Component{
 
-  static popTypes = {
-    post: PropTypes.object.isRequired,
-    viewMode: PropTypes.string.isRequired,
-    votePost: PropTypes.func.isRequired,
-    deletePost: PropTypes.func.isRequired,
-    fetchPostById: PropTypes.func.isRequired,
-    onDeletePost: PropTypes.func
-  };
-
   state = {
     isConfirmationModalOpen: false,
     postToDelete: null,
@@ -124,6 +115,15 @@ class Post extends Component{
     )
   }
 }
+
+Post.propTypes = {
+  postId: PropTypes.string.isRequired,
+  viewMode: PropTypes.string.isRequired,
+  votePost: PropTypes.func.isRequired,
+  deletePost: PropTypes.func.isRequired,
+  fetchPostById: PropTypes.func.isRequired,
+  onDeletePost: PropTypes.func
+};
 
 const mapStateToProps = ({entities}, {postId}) => {
   const post = {...entities.posts.byId[postId]};
