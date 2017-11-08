@@ -12,3 +12,20 @@ export const sort = (list = [], prop) => {
 
   return Array.prototype.sort.call(list)
 };
+
+export const getReadableDate = (timeStamp) => {
+  const months = [
+    'January', 'February', 'March', 'April', 'May', 'June',
+    'July', 'August', 'September', 'October', 'November', 'December'
+  ];
+
+  const date = new Date(timeStamp || ''),
+    month = months[date.getMonth()],
+    day = date.getDay(),
+    year = date.getFullYear(),
+    hour = date.getHours() < 10 ? `0${date.getHours()}` : date.getHours(),
+    minutes = date.getMinutes() < 10 ? `0${date.getMinutes()}` : date.getMinutes();
+
+  return `${month} ${day}, ${year} ${hour}:${minutes}`
+
+};
