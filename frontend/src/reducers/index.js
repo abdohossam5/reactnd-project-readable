@@ -8,7 +8,8 @@ const initialAppState = {
     users: { byId : {}, allIds : []},
     comments: { byId : {}, allIds : []}
   },
-  postsByCategory:{}
+  postsByCategory:{}, // {react: {items:['postId', ...], isFetching:false}
+  commentsByPost: {} // {postId: {items:['commentId', ...], isFetching:false}
 };
 
 const entities = (state = initialAppState.entities, action) =>{
@@ -71,33 +72,33 @@ const entities = (state = initialAppState.entities, action) =>{
         return newState;
       }
     }
+    case ActionTypes.DELETE_ENTITY_COMPLETED:
+      let newState = {...state};
+      delete newState[action.entityType].byId[action.id];
+      newState[action.entityType].allIds = newState[action.entityType].allIds.filter(id => id !== action.id);
+      return newState;
     case ActionTypes.VOTE_INITIATED:
       return {
         ...state,
-        posts:{
-          ...state.posts,
+        [action.entityType]:{
+          ...state[action.entityType],
           byId: {
-            ...state.posts.byId,
-            [action.postId]: {
-              ...state.posts.byId[action.postId],
+            ...state[action.entityType].byId,
+            [action.id]: {
+              ...state[action.entityType].byId[action.id],
               isVoting: true
             }
           }
         }
       };
-    case ActionTypes.DELETE_POST_COMPLETED:
-      let newState = {...state};
-      delete newState.posts.byId[action.postId];
-      newState.posts.allIds = newState.posts.allIds.filter(id => id !== action.postId);
-      return newState;
     case ActionTypes.VOTE_COMPLETED:
       return {
         ...state,
-        posts:{
-          ...state.posts,
+        [action.entityType]:{
+          ...state[action.entityType],
           byId: {
-            ...state.posts.byId,
-            ...action.data.entities.posts
+            ...state[action.entityType].byId,
+            ...action.data.entities[action.entityType]
           }
         }
       };
@@ -115,6 +116,21 @@ const entities = (state = initialAppState.entities, action) =>{
       if(newState.posts.allIds.indexOf(action.postId) < 0) newState.posts.allIds.push(action.postId);
       return newState;
     }
+    case ActionTypes.RECEIVED_POST_COMMENTS:
+      return{
+        ...state,
+        comments:{
+          ...state.comments,
+          byId:{
+            ...state.comments.byId,
+            ...action.data.entities.comments
+          },
+          allIds: Object.keys(action.data.entities.comments).reduce((allIds,id)=>{
+              if(allIds.indexOf(id) < 0) allIds.push(id);
+              return allIds;
+            },state.comments.allIds)
+        }
+      };
     default:
       return state;
   }
@@ -184,13 +200,14 @@ const postsByCategory = (state = initialAppState.postsByCategory, action) => {
         }
       };
     }
-    case ActionTypes.DELETE_POST_COMPLETED:
-      const postCategory = action.data.entities.posts[action.postId].category;
+    case ActionTypes.DELETE_ENTITY_COMPLETED:
+      if(action.entityType !== 'posts') return state;
+      const postCategory = action.data.entities.posts[action.id].category;
       return {
         ...state,
         [postCategory]:{
           ...state[postCategory],
-          items: state[postCategory].items.filter(id => id !== action.postId)
+          items: state[postCategory].items.filter(id => id !== action.id)
         }
       };
     default:
@@ -198,9 +215,48 @@ const postsByCategory = (state = initialAppState.postsByCategory, action) => {
   }
 };
 
+const commentsByPost = (state = initialAppState.commentsByPost, action) => {
+  switch (action.type){
+    case ActionTypes.FETCHING_POST_COMMENTS:
+      return{
+        ...state,
+        [action.postId]:{
+          ...state[action.postId],
+          items: state[action.postId]? (state[action.postId].items || []) : [],
+          isFetching: true
+        }
+      };
+    case ActionTypes.RECEIVED_POST_COMMENTS:
+      return{
+        ...state,
+        [action.postId]:{
+          ...state[action.postId],
+          items: Object.keys(action.data.entities.comments).reduce((items,id)=>{
+            if(items.indexOf(id) < 0) items.push(id);
+            return items;
+          }, state[action.postId]? (state[action.postId].items || []) : []),
+          isFetching: false
+        }
+      };
+    case ActionTypes.DELETE_ENTITY_COMPLETED:{
+      const postId = action.data.entities.comments[action.id].parentId;
+      return {
+        ...state,
+        [postId]:{
+          ...state[postId],
+          items: state[postId].items.filter(id => id !== action.id)
+        }
+      };
+    }
+    default:
+      return state;
+  }
+};
+
 const rootReducer = combineReducers({
   entities,
-  postsByCategory
+  postsByCategory,
+  commentsByPost
 });
 
 export default rootReducer;

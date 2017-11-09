@@ -23,6 +23,7 @@ const postSchema = new schema.Entity('posts',{
   category: categorySchema,
   author: userSchema
 });
+const commentSchema = new schema.Entity('comments');
 
 // get All Categories
 export const getCategories = () =>
@@ -45,23 +46,30 @@ export const getPostById = (id) => {
     .then(post => normalize(post, postSchema))
 };
 
-// upVote or downVote a post
-export const votePost = (postId, option) => {
-  return fetch(`${api}/posts/${postId}`, {
+// upVote or downVote a post/comment
+export const vote = ({id, option, entityType}) => {
+  return fetch(`${api}/${entityType}/${id}`, {
     headers,
     method: 'POST',
     body: JSON.stringify({ option })
   })
     .then(res => res.json())
-    .then(post => normalize(post, postSchema))
+    .then(entity => normalize(entity, entityType === 'posts'? postSchema : commentSchema))
 };
 
-// delete a post (sets the deleted flag on the post and parent deleted on comments
-export const deletePost = (postId) => {
-  return fetch(`${api}/posts/${postId}`, {
+// delete a post/comment (sets the deleted flag on the post/comment and parent deleted on comments
+export const deleteEntity = ({id, entityType}) => {
+  return fetch(`${api}/${entityType}/${id}`, {
     headers,
     method: 'DELETE'
   })
     .then(res => res.json())
-    .then(post => normalize(post, postSchema))
+    .then(post => normalize(post, entityType === 'posts'? postSchema : commentSchema))
+};
+
+// get Comments for a specific post
+export const getPostComments = (postId) => {
+  return fetch(`${api}/posts/${postId}/comments`, {headers})
+    .then(res => res.json())
+    .then(comments => normalize(comments, [commentSchema]))
 };

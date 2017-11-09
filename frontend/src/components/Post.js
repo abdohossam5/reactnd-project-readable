@@ -11,7 +11,6 @@ class Post extends Component{
 
   state = {
     isConfirmationModalOpen: false,
-    postToDelete: null,
     isDeletingPost: false,
   };
 
@@ -29,10 +28,9 @@ class Post extends Component{
     }
   }
 
-  showConfirmationModal = (pid) =>{
+  showConfirmationModal = () =>{
     this.setState({
-      isConfirmationModalOpen:true,
-      postToDelete: pid
+      isConfirmationModalOpen:true
     })
   };
 
@@ -40,19 +38,18 @@ class Post extends Component{
     this.setState({
       isDeletingPost: true
     });
-    this.props.deletePost(this.state.postToDelete)
+    this.props.deletePost(this.props.post.id)
   }
 
   closeConfirmationModal(cb){
     this.setState({
       isConfirmationModalOpen:false,
-      postToDelete: null,
       isDeletingPost: false
     }, cb)
   }
 
   render(){
-    const {post, viewMode, votePost, isFetching} = this.props;
+    const {post, viewMode, vote, isFetching} = this.props;
     const {isConfirmationModalOpen, isDeletingPost } = this.state;
 
     return(
@@ -63,9 +60,9 @@ class Post extends Component{
             <Link style={{
               textDecoration: viewMode === 'overview' ? 'underline' :'none',
             }} to={`/${post.category}/${post.id}`}>{post.title}</Link>
-            <button disabled={post.isVoting} onClick={() =>  votePost(post.id,'upVote')}>+</button>
-            <button disabled={post.isVoting} onClick={() => votePost(post.id,'downVote')}>-</button>
-            <button onClick={() => this.showConfirmationModal(post.id)}>Delete</button>
+            <button disabled={post.isVoting} onClick={() =>  vote(post.id,'upVote')}>+</button>
+            <button disabled={post.isVoting} onClick={() => vote(post.id,'downVote')}>-</button>
+            <button onClick={() => this.showConfirmationModal()}>Delete</button>
             {/*<button onClick={}>Edit</button>*/}
             <p>Author: {post.author} - Date: {getReadableDate(post.timestamp)} - Comments: {post.commentCount} - Score: {post.voteScore}</p>
 
@@ -119,7 +116,7 @@ class Post extends Component{
 Post.propTypes = {
   postId: PropTypes.string.isRequired,
   viewMode: PropTypes.string.isRequired,
-  votePost: PropTypes.func.isRequired,
+  vote: PropTypes.func.isRequired,
   deletePost: PropTypes.func.isRequired,
   fetchPostById: PropTypes.func.isRequired,
   onDeletePost: PropTypes.func
@@ -134,8 +131,8 @@ const mapStateToProps = ({entities}, {postId}) => {
 };
 
 const mapDispatchToProps = (dispatch) => ({
-  votePost: (postId, upOrDown) => dispatch(ActionTypes.votePost(postId, upOrDown)),
-  deletePost: (postId) => dispatch(ActionTypes.deletePost(postId)),
+  vote: (id, option) => dispatch(ActionTypes.vote({id, option, entityType: 'posts'})),
+  deletePost: (id) => dispatch(ActionTypes.deleteEntity({id, entityType: 'posts'})),
   fetchPostById: (postId) => dispatch(ActionTypes.fetchPostById(postId))
 });
 

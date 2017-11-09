@@ -67,31 +67,61 @@ export const fetchPostById = (id) => (dispatch) => {
 };
 
 export const VOTE_INITIATED = 'VOTE_INITIATED';
-export const voteInitiated = (postId) => ({
+export const voteInitiated = (id, entityType) => ({
   type: VOTE_INITIATED,
-  postId
+  id,
+  entityType
 });
 
 export const VOTE_COMPLETED = 'VOTE_COMPLETED';
-export const voteCompleted = (data) => ({
+export const voteCompleted = (data, entityType) => ({
   type: VOTE_COMPLETED,
+  data,
+  entityType
+});
+
+export const vote = ({id, option, entityType}) => (dispatch) => {
+  dispatch(voteInitiated(id, entityType));
+  return Api.vote({id, option, entityType})
+    .then((data) => dispatch(voteCompleted(data, entityType)))
+};
+
+export const DELETE_ENTITY_COMPLETED = 'DELETE_ENTITY_COMPLETED';
+export const deleteCompleted = (id, entityType, data) => ({
+  type: DELETE_ENTITY_COMPLETED,
+  id,
+  entityType,
   data
 });
 
-export const votePost = (postId, upOrDown) => (dispatch) => {
-  dispatch(voteInitiated(postId));
-  return Api.votePost(postId, upOrDown)
-    .then((data) => dispatch(voteCompleted(data)))
+export const deleteEntity = ({id, entityType}) => (dispatch) => {
+  return Api.deleteEntity({id, entityType})
+    .then((data) => dispatch(deleteCompleted(id, entityType, data)))
 };
 
-export const DELETE_POST_COMPLETED = 'DELETE_POST_COMPLETED';
-export const deleteCompleted = (postId, data) => ({
-  type: DELETE_POST_COMPLETED,
+export const FETCHING_POST_COMMENTS = 'FETCHING_POST_COMMENTS';
+export const fetchingPostComments = (postId) => ({
+  type: FETCHING_POST_COMMENTS,
+  postId
+});
+
+export const RECEIVED_POST_COMMENTS = 'RECEIVED_POST_COMMENTS';
+export const receivedPostComments = (postId, data) => ({
+  type: RECEIVED_POST_COMMENTS,
   postId,
   data
 });
 
-export const deletePost = (postId) => (dispatch) => {
-  return Api.deletePost(postId)
-    .then((data) => dispatch(deleteCompleted(postId, data)))
+export const fetchPostComments = (postId) => (dispatch, getState) => {
+  if (!shouldFetchComments(getState(), postId)) return;
+  dispatch(fetchingPostComments(postId));
+  return Api.getPostComments(postId)
+    .then(({entities}) => {
+      entities.comments = entities.comments || [];
+      dispatch(receivedPostComments(postId, {entities}))
+    })
+};
+
+const shouldFetchComments = (state, postId) => {
+    return state.commentsByPost[postId] ? !state.commentsByPost[postId].isFetching : true;
 };
