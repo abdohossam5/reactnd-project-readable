@@ -46,26 +46,25 @@ class PostsList extends Component {
   render(){
     const {posts, sortBy, isFetching } = this.state;
     return (
-      <div style={{
-        alignItems: 'center',
-        margin: 'auto'
-      }}>
+      <div>
 
         {!isFetching &&
-        <div>
-          <select value={sortBy} onChange={(e) => this.sortChange(e.target.value)}>
-            <option value="timestamp">Date</option>
-            <option value="voteScore">vote score</option>
-          </select>
-          <ul>{posts.map(p => (
-            <li key={p.id}>
+        <div className="Post-list">
+          <div className="Sort-cont">
+            <div className="Sort-Title">Sort BY: </div>
+            <select value={sortBy} onChange={(e) => this.sortChange(e.target.value)}>
+              <option value="timestamp">Date</option>
+              <option value="voteScore">vote score</option>
+            </select>
+          </div>
+          <div className="Posts-cont">{posts.map(p => (
               <Post
+                key={p.id}
                 postId={p.id}
                 location = {this.props.location}
                 viewMode="overview"
               />
-            </li>
-          ))}</ul>
+          ))}</div>
         </div>
         }
 

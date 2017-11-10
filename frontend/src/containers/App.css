@@ -1,28 +1,141 @@
+.Root-cont {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: auto;
+  background: #111111; }
+
+.App-content {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  wrap: wrap;
+  width: 100%;
+  height: calc(100% - 120px); }
+
 .App {
   text-align: center;
-}
+  box-sizing: content-box;
+  padding: 15px;
+  width: 80%;
+  height: 100%;
+  overflow-y: auto; }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
-}
-
-.App-header {
-  background-color: white;
-  height: 150px;
-  padding: 20px;
-  color: black;
-}
-
-.App-title {
-  font-size: 1.5em;
-}
+.App-navigation {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  wrap: wrap;
+  background: #1c1c1c;
+  width: 20%;
+  height: 100%; }
+  .App-navigation .Nav-items-cont {
+    width: 100%;
+    height: 100%; }
+    .App-navigation .Nav-items-cont .Nav-item {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      wrap: wrap;
+      padding: 0 20px;
+      font-size: 20px;
+      color: #61DAF9 !important;
+      width: 100%;
+      height: 60px;
+      text-decoration: none;
+      transition: background 300ms ease-in-out; }
+      .App-navigation .Nav-items-cont .Nav-item:hover {
+        background: rgba(0, 0, 0, 0.5); }
 
 .App-intro {
-  font-size: large;
-}
+  font-size: large; }
 
 @keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
-}
+  from {
+    transform: rotate(0deg); }
+  to {
+    transform: rotate(360deg); } }
+.App-header {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  wrap: wrap;
+  background-color: #232323;
+  width: 100%;
+  height: 120px; }
+  .App-header .Logo-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    wrap: wrap; }
+    .App-header .Logo-cont .App-logo {
+      animation: App-logo-spin infinite 20s linear;
+      height: 40px; }
+    .App-header .Logo-cont .App-title {
+      font-size: 1.5em; }
+
+.Post-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  wrap: wrap;
+  width: 100%;
+  padding: 0 20px; }
+  .Post-list .Sort-cont {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    wrap: wrap;
+    padding: 20px; }
+    .Post-list .Sort-cont .Sort-Title {
+      color: white;
+      font-size: 15px;
+      margin: 0 10px 0 0; }
+  .Post-list .Posts-cont {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    wrap: wrap; }
+    .Post-list .Posts-cont .Post-item {
+      width: 100%; }
+      .Post-list .Posts-cont .Post-item .Title-cont {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        wrap: wrap;
+        width: 100%; }
+        .Post-list .Posts-cont .Post-item .Title-cont .Title-text-cont {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-start;
+          align-items: center;
+          wrap: wrap;
+          width: 70%; }
+          .Post-list .Posts-cont .Post-item .Title-cont .Title-text-cont .fTitle {
+            font-size: 24px;
+            line-height: 1.35;
+            color: white;
+            margin-bottom: 10px; }
+        .Post-list .Posts-cont .Post-item .Title-cont .Action-cont {
+          display: flex;
+          flex-direction: row;
+          justify-content: flex-end;
+          align-items: center;
+          wrap: wrap;
+          width: 30%; }
+          .Post-list .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn {
+            margin-right: 10px; }
+            .Post-list .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn:last-child {
+              margin-right: 0px; }
+
+/*# sourceMappingURL=App.css.map */

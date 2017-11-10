@@ -6,6 +6,7 @@ import * as ActionTypes from '../actions';
 import ReactModal from 'react-modal';
 import ReactLoading from 'react-loading';
 import {getReadableDate} from "../utils/Helpers";
+import { Button, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 
 class Comment extends Component{
 
@@ -33,9 +34,11 @@ class Comment extends Component{
     return (
       <div>
         <h4>{comment.author}</h4>
-        <button disabled={comment.isVoting} onClick={() =>  vote(comment.id,'upVote')}>+</button>
-        <button disabled={comment.isVoting} onClick={() => vote(comment.id,'downVote')}>-</button>
-        <button onClick={() => this.showConfirmationModal(comment.id)}>Delete</button>
+        <ButtonToolbar bsSize="xsmall" >
+          <Button bsStyle="success" disabled={comment.isVoting} onClick={() =>  vote(comment.id,'upVote')}>+</Button>
+          <Button bsStyle="danger" disabled={comment.isVoting} onClick={() => vote(comment.id,'downVote')}>-</Button>
+          <Button onClick={() => this.showConfirmationModal(comment.id)}><Glyphicon glyph="remove-circle" /></Button>
+        </ButtonToolbar>
         {/*<button onClick={}>Edit</button>*/}
         <p>Author: {comment.author} - Date: {getReadableDate(comment.timestamp)} - Comments: {comment.commentCount} - Score: {comment.voteScore}</p>
 

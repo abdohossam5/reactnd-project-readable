@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import {Link} from 'react-router-dom';
+import {Link, withRouter} from 'react-router-dom';
 import {connect} from 'react-redux';
 import * as ActionTypes from '../actions';
 import ReactLoading from 'react-loading';
@@ -30,12 +30,12 @@ class CategoryList extends Component {
   render(){
     const {categories = [], isFetching} = this.state;
     return (
-      <div>
+      <div className="Nav-items-cont">
 
         {!isFetching ?
-          ( <ul>{categories.map(c => (
-            <li key={c}><Link to={`/${c}`}>{c}</Link></li>
-          ))}</ul>)
+          ( <div className="Nav-items-cont">{categories.map(c => (
+            <Link key={c} className="Nav-item" to={`/${c}`}>{c}</Link>
+          ))}</div>)
           :
           (<ReactLoading color="blue"/>)
         }
@@ -57,4 +57,4 @@ const mapDispatchToProps = (dispatch) => ({
   getCategories: () => dispatch(ActionTypes.fetchCategories()),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(CategoryList);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(CategoryList));

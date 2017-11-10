@@ -3,6 +3,7 @@ import {connect} from 'react-redux';
 import PropTypes from 'prop-types';
 import Post from './Post';
 import CommentsList from './CommentsList';
+import EntityFrom from './EntityForm'
 
 class PostDetails extends Component {
 
@@ -26,6 +27,9 @@ class PostDetails extends Component {
         <CommentsList
           postId={postId}
         />
+        <hr/>
+        <h4>Post Comment</h4>
+        <EntityFrom/>
       </div>
     )
   }

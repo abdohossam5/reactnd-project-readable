@@ -1,0 +1,108 @@
+$main: #61DAF9
+$sec: #232323
+
+=flex($direction:row, $justify: center, $alignItems: center, $wrap: wrap)
+  display: flex
+  flex-direction: $direction
+  justify-content: $justify
+  align-items: $alignItems
+  wrap: $wrap
+
+.Root-cont
+  width: 100vw
+  height: 100vh
+  overflow-y: auto
+  background: #111111
+
+.App-content
+  +flex()
+  width: 100%
+  height: calc(100% - 120px)
+
+.App
+  text-align: center
+  box-sizing: content-box
+  padding: 15px
+  width: 80%
+  height: 100%
+  overflow-y: auto
+
+.App-navigation
+  +flex(column, flex-start)
+  background: #1c1c1c
+  width: 20%
+  height: 100%
+  .Nav-items-cont
+    width: 100%
+    height: 100%
+    .Nav-item
+      +flex(row, flex-start)
+      padding: 0 20px
+      font-size: 20px
+      color: $main !important
+      width: 100%
+      height: 60px
+      text-decoration: none
+      transition: background 300ms ease-in-out
+      &:hover
+        background: rgba(0, 0, 0, 0.5)
+
+.App-intro
+  font-size: large
+
+@keyframes App-logo-spin
+  from
+    transform: rotate(0deg)
+
+  to
+    transform: rotate(360deg)
+
+// Header Component
+.App-header
+  +flex()
+  background-color: $sec
+  width: 100%
+  height: 120px
+  .Logo-cont
+    +flex(column)
+    .App-logo
+      animation: App-logo-spin infinite 20s linear
+      height: 40px
+    .App-title
+      font-size: 1.5em
+
+.Post-list
+  +flex(column, flex-start)
+  width: 100%
+  padding: 0 20px
+  .Sort-cont
+    width: 100%
+    +flex(row, flex-start)
+    padding: 20px
+    .Sort-Title
+      color: white
+      font-size: 15px
+      margin: 0 10px 0 0
+  .Posts-cont
+    width: 100%
+    +flex(column, flex-start)
+    .Post-item
+      width: 100%
+      .Title-cont
+        +flex(row, flex-start)
+        width: 100%
+        .Title-text-cont
+          +flex(row, flex-start)
+          width: 70%
+          .fTitle
+            font-size: 24px
+            line-height: 1.35
+            color: white
+            margin-bottom: 10px
+        .Action-cont
+          +flex(row, flex-end)
+          width: 30%
+          .Action-btn
+            margin-right: 10px
+            &:last-child
+              margin-right: 0px

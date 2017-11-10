@@ -6,6 +6,7 @@ import Header from '../components/Header'
 import PostsList from '../components/PostsList';
 import PostDetails from '../components/PostDetails';
 import Home from '../components/Home';
+import Navigation from '../components/Navigation';
 
 
 
@@ -14,16 +15,18 @@ class App extends Component {
   render() {
 
     return (
-      <div className="App">
-
+      <div className="Root-cont">
         <Header/>
+        <div className="App-content">
+          <Navigation/>
+          <div className="App">
+            <Route exact path="/" component={Home}/>
 
-        <Route exact path="/" component={Home}/>
+            <Route exact path="/:category" component={PostsList}/>
 
-        <Route exact path="/:category" component={PostsList}/>
-
-        <Route path="/:category/:postId" component={PostDetails}/>
-
+            <Route path="/:category/:postId" component={PostDetails}/>
+          </div>
+        </div>
       </div>
     );
   }

@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom';
 import {connect} from 'react-redux';
-import PropTypes from 'prop-types'
+import PropTypes from 'prop-types';
 import * as ActionTypes from '../actions';
 import ReactModal from 'react-modal';
 import ReactLoading from 'react-loading';
 import {getReadableDate} from "../utils/Helpers";
+import { Row, Col, Button, ButtonToolbar, Glyphicon } from 'react-bootstrap';
 
 class Post extends Component{
 
@@ -53,16 +54,27 @@ class Post extends Component{
     const {isConfirmationModalOpen, isDeletingPost } = this.state;
 
     return(
-      <div>
+      <div className="Post-item">
 
         {!isFetching && (
           <div>
-            <Link style={{
-              textDecoration: viewMode === 'overview' ? 'underline' :'none',
-            }} to={`/${post.category}/${post.id}`}>{post.title}</Link>
-            <button disabled={post.isVoting} onClick={() =>  vote(post.id,'upVote')}>+</button>
-            <button disabled={post.isVoting} onClick={() => vote(post.id,'downVote')}>-</button>
-            <button onClick={() => this.showConfirmationModal()}>Delete</button>
+
+            <div className="Title-cont">
+
+              <div className="Title-text-cont">
+                <Link className="fTitle" style={{
+                  textDecoration: viewMode === 'overview' ? 'underline' :'none',
+                }} to={`/${post.category}/${post.id}`}>{post.title}</Link>
+              </div>
+
+              <div className="Action-cont">
+                  <Button className="Action-btn" bsSize="xsmall" bsStyle="success" disabled={post.isVoting} onClick={() =>  vote(post.id,'upVote')}>+</Button>
+                  <Button className="Action-btn" bsSize="xsmall" bsStyle="danger" disabled={post.isVoting} onClick={() => vote(post.id,'downVote')}>-</Button>
+                  <Button className="Action-btn" onClick={() => this.showConfirmationModal()}><Glyphicon glyph="remove-circle" /></Button>
+              </div>
+
+            </div>
+
             {/*<button onClick={}>Edit</button>*/}
             <p>Author: {post.author} - Date: {getReadableDate(post.timestamp)} - Comments: {post.commentCount} - Score: {post.voteScore}</p>
 
