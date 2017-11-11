@@ -6,7 +6,7 @@ import * as ActionTypes from '../actions';
 import ReactModal from 'react-modal';
 import ReactLoading from 'react-loading';
 import {getReadableDate} from "../utils/Helpers";
-import { Row, Col, Button, ButtonToolbar, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon } from 'react-bootstrap';
 
 class Post extends Component{
 

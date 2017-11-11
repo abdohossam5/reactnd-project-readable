@@ -12,6 +12,10 @@ class PostDetails extends Component {
     this.props.history.replace('/')
   }
 
+  submitComment(data){
+    console.log(data);
+  }
+
   render(){
     const {postId} = this.props.match.params;
 
@@ -23,13 +27,20 @@ class PostDetails extends Component {
           viewMode="details"
           onDeletePost = {() => this.onDeletePost()}
         />
-        <hr/>
+
         <CommentsList
           postId={postId}
         />
-        <hr/>
-        <h4>Post Comment</h4>
-        <EntityFrom/>
+
+        <div className="Add-comment-cont">
+          <div className="Title-cont">
+            <div className="fTitle">Post Comment</div>
+          </div>
+          <EntityFrom
+            fields={['author']}
+            onSubmit={(data) => this.submitComment(data)}
+          />
+        </div>
       </div>
     )
   }

@@ -31,6 +31,19 @@ $large-screen: 1200px
   width: 80%
   height: 100%
   overflow-y: auto
+  .Add-post-btn
+    border-color: transparent
+    position: absolute
+    bottom: 10px
+    right: 10px
+    border-radius: 50%
+    width: 64px
+    height: 64px
+    background: $main
+    color: white
+    font-size: 25px
+    &:focus
+      outline: none
 .App-navigation
   +flex(column, flex-start)
   background: #1c1c1c
@@ -152,10 +165,27 @@ $large-screen: 1200px
       align-items: start
       text-align: left
       border-bottom: 1px solid rgba(255, 255, 255, 0.73)
+  .Add-comment-cont
+    +flex(column, flex-start, start)
+    width: 100%
+    .Title-cont
+      +flex(row , flex-start, start, wrap)
+      padding: 20px 20px 0px 20px
+      width: 100%
+      text-align: justify
+      .fTitle
+        text-align: left
+        font-size: 20px
+        line-height: 1.35
+        color: white
+        margin-bottom: 10px
+        font-weight: 600
+
 
 .Comments-list
   +flex(column, flex-start)
   width: 100%
+  border-bottom: 1px solid rgba(255, 255, 255, 0.73)
   .Header-cont
     width: 100%
     color: white
@@ -182,13 +212,16 @@ $large-screen: 1200px
   padding: 35px
   +flex(column, flex-start)
   @media screen and (max-device-width: $small-screen)
-    padding: 15px
+    padding: 15px 15px 0 15px
   .Comment
     +flex(column, flex-start)
     padding: 10px
     width: 100%
     border-bottom: 1px solid rgba(99, 99, 99, 0.41)
     margin-bottom: 10px
+    &:last-child
+      border-bottom: 0
+      margin-bottom: 0
     .Title-cont
       +flex(row , flex-start, start, wrap)
       width: 100%
@@ -231,3 +264,48 @@ $large-screen: 1200px
       text-align: left
       @media screen and (max-device-width: $small-screen)
         padding: 10px
+
+.Entity-form
+  +flex(column, flex-start, start)
+  padding: 20px
+  width: 100%
+  .form-group
+    width: 100%
+    .control-label
+      width: 100%
+      color: white
+      text-align: justify
+    .form-control
+      width: 70%
+      @media screen and (max-device-width: $small-screen)
+        width: 100%
+    .help-block
+      width: 70%
+      background: #dc3646
+      color: white
+      height: 30px
+      float: left
+      text-align: start
+      padding: 5px
+      border-radius: 5px
+      margin-top: 5px
+      @media screen and (max-device-width: $small-screen)
+        width: 100%
+    &.has-error
+      .control-label
+        color: #dc3646
+      .form-control
+        border-color: #dc3646
+  .Submit-btn
+    background: $main
+    color: white
+.modal-content
+  display: flex
+  flex-direction: column
+  padding: 20px
+  background: $sec
+  border: 1px solid $sec
+.modal-title
+  color: white
+.close
+  color: white

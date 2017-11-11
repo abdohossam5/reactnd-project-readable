@@ -19,6 +19,19 @@
   width: 80%;
   height: 100%;
   overflow-y: auto; }
+  .App .Add-post-btn {
+    border-color: transparent;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    border-radius: 50%;
+    width: 64px;
+    height: 64px;
+    background: #61DAF9;
+    color: white;
+    font-size: 25px; }
+    .App .Add-post-btn:focus {
+      outline: none; }
 
 .App-navigation {
   display: flex;
@@ -190,6 +203,29 @@
       align-items: start;
       text-align: left;
       border-bottom: 1px solid rgba(255, 255, 255, 0.73); }
+  .Posts-cont .Add-comment-cont {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: start;
+    flex-wrap: no-wrap;
+    width: 100%; }
+    .Posts-cont .Add-comment-cont .Title-cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: start;
+      flex-wrap: wrap;
+      padding: 20px 20px 0px 20px;
+      width: 100%;
+      text-align: justify; }
+      .Posts-cont .Add-comment-cont .Title-cont .fTitle {
+        text-align: left;
+        font-size: 20px;
+        line-height: 1.35;
+        color: white;
+        margin-bottom: 10px;
+        font-weight: 600; }
 
 .Comments-list {
   display: flex;
@@ -197,7 +233,8 @@
   justify-content: flex-start;
   align-items: center;
   flex-wrap: no-wrap;
-  width: 100%; }
+  width: 100%;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.73); }
   .Comments-list .Header-cont {
     width: 100%;
     color: white;
@@ -239,7 +276,7 @@
   flex-wrap: no-wrap; }
   @media screen and (max-device-width: 415px) {
     .Comments-cont {
-      padding: 15px; } }
+      padding: 15px 15px 0 15px; } }
   .Comments-cont .Comment {
     display: flex;
     flex-direction: column;
@@ -250,6 +287,9 @@
     width: 100%;
     border-bottom: 1px solid rgba(99, 99, 99, 0.41);
     margin-bottom: 10px; }
+    .Comments-cont .Comment:last-child {
+      border-bottom: 0;
+      margin-bottom: 0; }
     .Comments-cont .Comment .Title-cont {
       display: flex;
       flex-direction: row;
@@ -312,5 +352,58 @@
       @media screen and (max-device-width: 415px) {
         .Comments-cont .Comment .Body-cont {
           padding: 10px; } }
+
+.Entity-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: start;
+  flex-wrap: no-wrap;
+  padding: 20px;
+  width: 100%; }
+  .Entity-form .form-group {
+    width: 100%; }
+    .Entity-form .form-group .control-label {
+      width: 100%;
+      color: white;
+      text-align: justify; }
+    .Entity-form .form-group .form-control {
+      width: 70%; }
+      @media screen and (max-device-width: 415px) {
+        .Entity-form .form-group .form-control {
+          width: 100%; } }
+    .Entity-form .form-group .help-block {
+      width: 70%;
+      background: #dc3646;
+      color: white;
+      height: 30px;
+      float: left;
+      text-align: start;
+      padding: 5px;
+      border-radius: 5px;
+      margin-top: 5px; }
+      @media screen and (max-device-width: 415px) {
+        .Entity-form .form-group .help-block {
+          width: 100%; } }
+    .Entity-form .form-group.has-error .control-label {
+      color: #dc3646; }
+    .Entity-form .form-group.has-error .form-control {
+      border-color: #dc3646; }
+  .Entity-form .Submit-btn {
+    background: #61DAF9;
+    color: white; }
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  background: #232323;
+  border: 1px solid #232323; }
+
+.modal-title {
+  color: white; }
+
+.close {
+  color: white; }
 
 /*# sourceMappingURL=App.css.map */
