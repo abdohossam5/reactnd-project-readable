@@ -52,7 +52,7 @@ class PostsList extends Component {
         <div className="Post-list">
           <div className="Sort-cont">
             <div className="Sort-Title">Sort BY: </div>
-            <select value={sortBy} onChange={(e) => this.sortChange(e.target.value)}>
+            <select className="Select-control" value={sortBy} onChange={(e) => this.sortChange(e.target.value)}>
               <option value="timestamp">Date</option>
               <option value="voteScore">vote score</option>
             </select>

@@ -9,14 +9,13 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  wrap: wrap;
+  flex-wrap: no-wrap;
   width: 100%;
   height: calc(100% - 120px); }
 
 .App {
   text-align: center;
   box-sizing: content-box;
-  padding: 15px;
   width: 80%;
   height: 100%;
   overflow-y: auto; }
@@ -26,7 +25,7 @@
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  wrap: wrap;
+  flex-wrap: no-wrap;
   background: #1c1c1c;
   width: 20%;
   height: 100%; }
@@ -38,16 +37,22 @@
       flex-direction: row;
       justify-content: flex-start;
       align-items: center;
-      wrap: wrap;
+      flex-wrap: no-wrap;
       padding: 0 20px;
       font-size: 20px;
       color: #61DAF9 !important;
       width: 100%;
       height: 60px;
       text-decoration: none;
+      text-transform: capitalize;
       transition: background 300ms ease-in-out; }
       .App-navigation .Nav-items-cont .Nav-item:hover {
         background: rgba(0, 0, 0, 0.5); }
+      @media screen and (max-device-width: 415px) {
+        .App-navigation .Nav-items-cont .Nav-item {
+          padding: 0 10px;
+          font-size: 10px;
+          height: 30px; } }
 
 .App-intro {
   font-size: large; }
@@ -62,7 +67,7 @@
   flex-direction: row;
   justify-content: center;
   align-items: center;
-  wrap: wrap;
+  flex-wrap: no-wrap;
   background-color: #232323;
   width: 100%;
   height: 120px; }
@@ -71,19 +76,20 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    wrap: wrap; }
+    flex-wrap: no-wrap; }
     .App-header .Logo-cont .App-logo {
       animation: App-logo-spin infinite 20s linear;
-      height: 40px; }
+      height: 70px; }
     .App-header .Logo-cont .App-title {
-      font-size: 1.5em; }
+      font-size: 2.5em;
+      color: white; }
 
 .Post-list {
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
-  wrap: wrap;
+  flex-wrap: no-wrap;
   width: 100%;
   padding: 0 20px; }
   .Post-list .Sort-cont {
@@ -92,50 +98,219 @@
     flex-direction: row;
     justify-content: flex-start;
     align-items: center;
-    wrap: wrap;
+    flex-wrap: no-wrap;
     padding: 20px; }
     .Post-list .Sort-cont .Sort-Title {
       color: white;
       font-size: 15px;
       margin: 0 10px 0 0; }
-  .Post-list .Posts-cont {
+    .Post-list .Sort-cont .Select-control {
+      background: aliceblue;
+      height: 19px; }
+
+.Posts-cont {
+  width: 100%;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: no-wrap; }
+  @media screen and (max-device-width: 415px) {
+    .Posts-cont {
+      padding: 10px; } }
+  .Posts-cont .Post-item {
     width: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-start;
-    align-items: center;
-    wrap: wrap; }
-    .Post-list .Posts-cont .Post-item {
-      width: 100%; }
-      .Post-list .Posts-cont .Post-item .Title-cont {
+    padding-top: 10px; }
+    .Posts-cont .Post-item .Title-cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: start;
+      flex-wrap: wrap;
+      width: 100%;
+      text-align: justify;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.73); }
+      @media screen and (max-device-width: 415px) {
+        .Posts-cont .Post-item .Title-cont {
+          flex-wrap: wrap; } }
+      .Posts-cont .Post-item .Title-cont .Title-text-cont {
         display: flex;
         flex-direction: row;
         justify-content: flex-start;
         align-items: center;
-        wrap: wrap;
-        width: 100%; }
-        .Post-list .Posts-cont .Post-item .Title-cont .Title-text-cont {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-start;
-          align-items: center;
-          wrap: wrap;
-          width: 70%; }
-          .Post-list .Posts-cont .Post-item .Title-cont .Title-text-cont .fTitle {
-            font-size: 24px;
-            line-height: 1.35;
-            color: white;
-            margin-bottom: 10px; }
-        .Post-list .Posts-cont .Post-item .Title-cont .Action-cont {
-          display: flex;
-          flex-direction: row;
-          justify-content: flex-end;
-          align-items: center;
-          wrap: wrap;
-          width: 30%; }
-          .Post-list .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn {
-            margin-right: 10px; }
-            .Post-list .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn:last-child {
-              margin-right: 0px; }
+        flex-wrap: no-wrap;
+        width: 70%; }
+        @media screen and (max-device-width: 415px) {
+          .Posts-cont .Post-item .Title-cont .Title-text-cont {
+            width: 100%; } }
+        .Posts-cont .Post-item .Title-cont .Title-text-cont .fTitle {
+          font-size: 24px;
+          line-height: 1.35;
+          color: white;
+          margin-bottom: 10px;
+          font-weight: 600; }
+          @media screen and (max-device-width: 415px) {
+            .Posts-cont .Post-item .Title-cont .Title-text-cont .fTitle {
+              line-height: 1;
+              font-size: 20px; } }
+      .Posts-cont .Post-item .Title-cont .Action-cont {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: no-wrap;
+        width: 30%; }
+        @media screen and (max-device-width: 415px) {
+          .Posts-cont .Post-item .Title-cont .Action-cont {
+            width: 100%;
+            justify-content: flex-start; } }
+        .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn {
+          margin-right: 10px; }
+          .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn:last-child {
+            margin-right: 0; }
+      .Posts-cont .Post-item .Title-cont .Info-text {
+        width: 100%;
+        text-align: start;
+        font-size: 10px;
+        color: #61DAF9; }
+        @media screen and (max-device-width: 415px) {
+          .Posts-cont .Post-item .Title-cont .Info-text {
+            margin-top: 10px; } }
+    .Posts-cont .Post-item .Body-cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: no-wrap;
+      width: 100%;
+      padding: 20px;
+      font-size: 1.5rem;
+      color: rgba(245, 245, 245, 0.97);
+      align-items: start;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.73); }
+
+.Comments-list {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: no-wrap;
+  width: 100%; }
+  .Comments-list .Header-cont {
+    width: 100%;
+    color: white;
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: no-wrap;
+    padding: 20px; }
+    @media screen and (max-device-width: 415px) {
+      .Comments-list .Header-cont {
+        padding: 10px; } }
+    .Comments-list .Header-cont .Title-cont {
+      text-align: left;
+      width: 30%;
+      font-size: 20px; }
+    .Comments-list .Header-cont .Action-Cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-end;
+      align-items: center;
+      flex-wrap: no-wrap;
+      width: 70%; }
+      .Comments-list .Header-cont .Action-Cont .Action-Title {
+        color: #61DAF9;
+        font-size: 15px;
+        margin: 0 10px 0 0; }
+      .Comments-list .Header-cont .Action-Cont .Select-control {
+        background: aliceblue;
+        height: 19px; }
+
+.Comments-cont {
+  width: 100%;
+  padding: 35px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: center;
+  flex-wrap: no-wrap; }
+  @media screen and (max-device-width: 415px) {
+    .Comments-cont {
+      padding: 15px; } }
+  .Comments-cont .Comment {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    flex-wrap: no-wrap;
+    padding: 10px;
+    width: 100%;
+    border-bottom: 1px solid rgba(99, 99, 99, 0.41);
+    margin-bottom: 10px; }
+    .Comments-cont .Comment .Title-cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: start;
+      flex-wrap: wrap;
+      width: 100%;
+      text-align: justify; }
+      @media screen and (max-device-width: 415px) {
+        .Comments-cont .Comment .Title-cont {
+          flex-wrap: wrap; } }
+      .Comments-cont .Comment .Title-cont .Author-cont {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: center;
+        flex-wrap: no-wrap;
+        width: 70%; }
+        @media screen and (max-device-width: 415px) {
+          .Comments-cont .Comment .Title-cont .Author-cont {
+            width: 100%; } }
+        .Comments-cont .Comment .Title-cont .Author-cont .fTitle {
+          font-size: 1.5rem;
+          line-height: 1.35;
+          color: white;
+          margin-bottom: 10px;
+          font-weight: 600; }
+      .Comments-cont .Comment .Title-cont .Action-cont {
+        display: flex;
+        flex-direction: row;
+        justify-content: flex-end;
+        align-items: center;
+        flex-wrap: no-wrap;
+        width: 30%; }
+        @media screen and (max-device-width: 415px) {
+          .Comments-cont .Comment .Title-cont .Action-cont {
+            width: 100%;
+            justify-content: flex-start; } }
+        .Comments-cont .Comment .Title-cont .Action-cont .Action-btn {
+          margin-right: 10px; }
+          .Comments-cont .Comment .Title-cont .Action-cont .Action-btn:last-child {
+            margin-right: 0; }
+      .Comments-cont .Comment .Title-cont .Info-text {
+        width: 100%;
+        text-align: start;
+        font-size: 10px;
+        color: #61DAF9; }
+    .Comments-cont .Comment .Body-cont {
+      display: flex;
+      flex-direction: row;
+      justify-content: flex-start;
+      align-items: center;
+      flex-wrap: no-wrap;
+      width: 100%;
+      padding: 20px 20px 10px 20px;
+      font-size: 1.1rem;
+      color: rgba(245, 245, 245, 0.97);
+      align-items: start;
+      text-align: left; }
+      @media screen and (max-device-width: 415px) {
+        .Comments-cont .Comment .Body-cont {
+          padding: 10px; } }
 
 /*# sourceMappingURL=App.css.map */

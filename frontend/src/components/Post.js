@@ -73,13 +73,13 @@ class Post extends Component{
                   <Button className="Action-btn" onClick={() => this.showConfirmationModal()}><Glyphicon glyph="remove-circle" /></Button>
               </div>
 
+              <p className="Info-text">Author: {post.author} - Date: {getReadableDate(post.timestamp)} - Comments: {post.commentCount} - Score: {post.voteScore}</p>
             </div>
 
             {/*<button onClick={}>Edit</button>*/}
-            <p>Author: {post.author} - Date: {getReadableDate(post.timestamp)} - Comments: {post.commentCount} - Score: {post.voteScore}</p>
 
             {viewMode === 'details' && (
-              <div>
+              <div className="Body-cont">
                 <p>{post.body}</p>
               </div>
             )}

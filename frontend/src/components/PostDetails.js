@@ -16,7 +16,7 @@ class PostDetails extends Component {
     const {postId} = this.props.match.params;
 
     return(
-      <div>
+      <div className="Posts-cont">
         <Post
           postId={postId}
           location = {this.props.location}

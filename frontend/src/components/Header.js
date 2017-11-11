@@ -5,9 +5,9 @@ import logo from '../logo.svg';
 
 const Header = () => (
   <header className="App-header">
-    <Link to="/">
+    <Link className="Logo-cont" to="/">
       <img src={logo} className="App-logo" alt="logo" />
-      <h1 className="App-title">Readable</h1>
+      <p className="App-title">Readable</p>
     </Link>
   </header>
 );

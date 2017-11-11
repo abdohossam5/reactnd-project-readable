@@ -1,12 +1,18 @@
+// colors
 $main: #61DAF9
 $sec: #232323
+$caption: #9fcdff
 
-=flex($direction:row, $justify: center, $alignItems: center, $wrap: wrap)
+// media query vars
+$small-screen: 415px
+$large-screen: 1200px
+
+=flex($direction:row, $justify: center, $alignItems: center, $wrap: no-wrap)
   display: flex
   flex-direction: $direction
   justify-content: $justify
   align-items: $alignItems
-  wrap: $wrap
+  flex-wrap: $wrap
 
 .Root-cont
   width: 100vw
@@ -22,11 +28,9 @@ $sec: #232323
 .App
   text-align: center
   box-sizing: content-box
-  padding: 15px
   width: 80%
   height: 100%
   overflow-y: auto
-
 .App-navigation
   +flex(column, flex-start)
   background: #1c1c1c
@@ -43,9 +47,14 @@ $sec: #232323
       width: 100%
       height: 60px
       text-decoration: none
+      text-transform: capitalize
       transition: background 300ms ease-in-out
       &:hover
         background: rgba(0, 0, 0, 0.5)
+      @media screen and (max-device-width: $small-screen)
+        padding: 0 10px
+        font-size: 10px
+        height: 30px
 
 .App-intro
   font-size: large
@@ -67,9 +76,10 @@ $sec: #232323
     +flex(column)
     .App-logo
       animation: App-logo-spin infinite 20s linear
-      height: 40px
+      height: 70px
     .App-title
-      font-size: 1.5em
+      font-size: 2.5em
+      color: white
 
 .Post-list
   +flex(column, flex-start)
@@ -83,26 +93,141 @@ $sec: #232323
       color: white
       font-size: 15px
       margin: 0 10px 0 0
-  .Posts-cont
+    .Select-control
+      background: aliceblue
+      height: 19px
+.Posts-cont
+  width: 100%
+  padding: 35px
+  +flex(column, flex-start)
+  @media screen and (max-device-width: $small-screen)
+    padding: 10px
+  .Post-item
     width: 100%
-    +flex(column, flex-start)
-    .Post-item
+    padding-top: 10px
+    .Title-cont
+      +flex(row , flex-start, start, wrap)
       width: 100%
-      .Title-cont
+      text-align: justify
+      border-bottom: 1px solid rgba(255, 255, 255, 0.73)
+      @media screen and (max-device-width: $small-screen)
+        flex-wrap: wrap
+      .Title-text-cont
         +flex(row, flex-start)
+        width: 70%
+        @media screen and (max-device-width: $small-screen)
+          width: 100%
+        .fTitle
+          font-size: 24px
+          line-height: 1.35
+          color: white
+          margin-bottom: 10px
+          font-weight: 600
+          @media screen and (max-device-width: $small-screen)
+            line-height: 1.0
+            font-size: 20px
+      .Action-cont
+        +flex(row, flex-end)
+        width: 30%
+        @media screen and (max-device-width: $small-screen)
+          width: 100%
+          justify-content: flex-start
+        .Action-btn
+          margin-right: 10px
+          &:last-child
+            margin-right: 0
+      .Info-text
         width: 100%
-        .Title-text-cont
-          +flex(row, flex-start)
-          width: 70%
-          .fTitle
-            font-size: 24px
-            line-height: 1.35
-            color: white
-            margin-bottom: 10px
-        .Action-cont
-          +flex(row, flex-end)
-          width: 30%
-          .Action-btn
-            margin-right: 10px
-            &:last-child
-              margin-right: 0px
+        text-align: start
+        font-size: 10px
+        color: $main
+        @media screen and (max-device-width: $small-screen)
+          margin-top: 10px
+    .Body-cont
+      +flex(row, flex-start)
+      width: 100%
+      padding: 20px
+      font-size: 1.5rem
+      color: rgba(245, 245, 245, 0.97)
+      align-items: start
+      text-align: left
+      border-bottom: 1px solid rgba(255, 255, 255, 0.73)
+
+.Comments-list
+  +flex(column, flex-start)
+  width: 100%
+  .Header-cont
+    width: 100%
+    color: white
+    +flex(row, flex-start)
+    padding: 20px
+    @media screen and (max-device-width: $small-screen)
+      padding: 10px
+    .Title-cont
+      text-align: left
+      width: 30%
+      font-size: 20px
+    .Action-Cont
+      +flex(row, flex-end)
+      width: 70%
+      .Action-Title
+        color: $main
+        font-size: 15px
+        margin: 0 10px 0 0
+      .Select-control
+        background: aliceblue
+        height: 19px
+.Comments-cont
+  width: 100%
+  padding: 35px
+  +flex(column, flex-start)
+  @media screen and (max-device-width: $small-screen)
+    padding: 15px
+  .Comment
+    +flex(column, flex-start)
+    padding: 10px
+    width: 100%
+    border-bottom: 1px solid rgba(99, 99, 99, 0.41)
+    margin-bottom: 10px
+    .Title-cont
+      +flex(row , flex-start, start, wrap)
+      width: 100%
+      text-align: justify
+      @media screen and (max-device-width: $small-screen)
+        flex-wrap: wrap
+      .Author-cont
+        +flex(row, flex-start)
+        width: 70%
+        @media screen and (max-device-width: $small-screen)
+          width: 100%
+        .fTitle
+          font-size: 1.5rem
+          line-height: 1.35
+          color: white
+          margin-bottom: 10px
+          font-weight: 600
+      .Action-cont
+        +flex(row, flex-end)
+        width: 30%
+        @media screen and (max-device-width: $small-screen)
+          width: 100%
+          justify-content: flex-start
+        .Action-btn
+          margin-right: 10px
+          &:last-child
+            margin-right: 0
+      .Info-text
+        width: 100%
+        text-align: start
+        font-size: 10px
+        color: $main
+    .Body-cont
+      +flex(row, flex-start)
+      width: 100%
+      padding: 20px 20px 10px 20px
+      font-size: 1.1rem
+      color: rgba(245, 245, 245, 0.97)
+      align-items: start
+      text-align: left
+      @media screen and (max-device-width: $small-screen)
+        padding: 10px

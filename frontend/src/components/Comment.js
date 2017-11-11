@@ -27,21 +27,35 @@ class Comment extends Component{
     this.props.deleteComment(this.props.comment.id)
   }
 
+  closeConfirmationModal(cb){
+    this.setState({
+      isConfirmationModalOpen:false,
+      isDeletingPost: false
+    }, cb)
+  }
+
   render(){
     const {comment, vote} = this.props;
     const {isConfirmationModalOpen, isDeleting } = this.state;
 
     return (
-      <div>
-        <h4>{comment.author}</h4>
-        <ButtonToolbar bsSize="xsmall" >
-          <Button bsStyle="success" disabled={comment.isVoting} onClick={() =>  vote(comment.id,'upVote')}>+</Button>
-          <Button bsStyle="danger" disabled={comment.isVoting} onClick={() => vote(comment.id,'downVote')}>-</Button>
-          <Button onClick={() => this.showConfirmationModal(comment.id)}><Glyphicon glyph="remove-circle" /></Button>
-        </ButtonToolbar>
-        {/*<button onClick={}>Edit</button>*/}
-        <p>Author: {comment.author} - Date: {getReadableDate(comment.timestamp)} - Comments: {comment.commentCount} - Score: {comment.voteScore}</p>
+      <div className="Comment">
+        <div className="Title-cont">
+          <div className="Author-cont">
+            <div className="fTitle">{comment.author}</div>
+          </div>
+          <div className="Action-cont" >
+            <Button className="Action-btn" bsSize="xsmall" bsStyle="success" disabled={comment.isVoting} onClick={() =>  vote(comment.id,'upVote')}>+</Button>
+            <Button className="Action-btn" bsSize="xsmall" bsStyle="danger" disabled={comment.isVoting} onClick={() => vote(comment.id,'downVote')}>-</Button>
+            <Button className="Action-btn" bsSize="xsmall" onClick={() => this.showConfirmationModal(comment.id)}><Glyphicon glyph="remove-circle" /></Button>
+          </div>
+          <p className="Info-text">Date: {getReadableDate(comment.timestamp)} - Comments: {comment.commentCount} - Score: {comment.voteScore}</p>
+          {/*<button onClick={}>Edit</button>*/}
+        </div>
 
+        <div className="Body-cont">
+          <p>{comment.body}</p>
+        </div>
 
         <ReactModal
           style={{
@@ -71,7 +85,6 @@ class Comment extends Component{
           )}
 
         </ReactModal>
-
       </div>
     )
   }

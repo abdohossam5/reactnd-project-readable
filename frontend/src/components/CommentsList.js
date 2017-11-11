@@ -48,26 +48,28 @@ class CommentsList extends Component {
   render(){
     const {comments, sortBy, isFetching } = this.state;
     return (
-      <div>
+      !isFetching ?
+        (<div className="Comments-list">
 
-        {!isFetching &&
-        <div>
-          <select value={sortBy} onChange={(e) => this.sortChange(e.target.value)}>
-            <option value="timestamp">Date</option>
-            <option value="voteScore">vote score</option>
-          </select>
-          <ul>{comments.map(c => (
-            <li key={c.id}>
-              <Comment
-                comment={c}
-              />
-            </li>
-          ))}</ul>
-        </div>
-        }
+          <div className="Header-cont">
+            <div className="Title-cont">Comments:</div>
+            <div className="Action-Cont">
+              <div className="Action-Title">Sort By:</div>
+              <select className="Select-control" value={sortBy} onChange={(e) => this.sortChange(e.target.value)}>
+                <option value="timestamp">Date</option>
+                <option value="voteScore">vote score</option>
+              </select>
+            </div>
+          </div>
 
-        {isFetching && <ReactLoading type="spinningBubbles" color='blue'/>}
-      </div>
+          <div className="Comments-cont">{comments.map(c => (
+            <Comment
+              key={c.id}
+              comment={c}
+            />
+          ))}</div>
+        </div>) :
+        (<ReactLoading type="spinningBubbles" color='blue'/>)
     )
   }
 }
