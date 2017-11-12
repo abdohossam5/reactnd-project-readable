@@ -9,7 +9,8 @@ const initialAppState = {
     comments: { byId : {}, allIds : []}
   },
   postsByCategory:{}, // {react: {items:['postId', ...], isFetching:false}
-  commentsByPost: {} // {postId: {items:['commentId', ...], isFetching:false}
+  commentsByPost: {}, // {postId: {items:['commentId', ...], isFetching:false}
+  stagingArea: {isLoading: false, loadingAction: '', items:[]}
 };
 
 const entities = (state = initialAppState.entities, action) =>{
@@ -131,6 +132,22 @@ const entities = (state = initialAppState.entities, action) =>{
             },state.comments.allIds)
         }
       };
+    case ActionTypes.ENTITY_CREATED:
+      const {entityType} = action;
+      return {
+        ...state,
+        [entityType]:{
+          ...state[entityType],
+          byId:{
+            ...state[entityType].byId,
+            ...action.data.entities[entityType]
+          },
+          allIds: Object.keys(action.data.entities[entityType]).reduce((allIds,id)=>{
+            if(allIds.indexOf(id) < 0) allIds.push(id);
+            return allIds;
+          },state[entityType].allIds)
+        }
+      };
     default:
       return state;
   }
@@ -210,6 +227,21 @@ const postsByCategory = (state = initialAppState.postsByCategory, action) => {
           items: state[postCategory].items.filter(id => id !== action.id)
         }
       };
+    case ActionTypes.ENTITY_CREATED:{
+      const {entityType} = action;
+      if(entityType !== 'posts') return state;
+      const postCategory = action.data.category;
+      return {
+        ...state,
+        [postCategory]:{
+          ...state[postCategory],
+          items: [
+            ...state[postCategory].items,
+            ...Object.keys(action.data.entities.posts)
+          ]
+        }
+      };
+    }
     default:
       return state;
   }
@@ -239,6 +271,7 @@ const commentsByPost = (state = initialAppState.commentsByPost, action) => {
         }
       };
     case ActionTypes.DELETE_ENTITY_COMPLETED:{
+      if(action.entityType !== 'comments') return state;
       const postId = action.data.entities.comments[action.id].parentId;
       return {
         ...state,
@@ -248,6 +281,43 @@ const commentsByPost = (state = initialAppState.commentsByPost, action) => {
         }
       };
     }
+    case ActionTypes.ENTITY_CREATED:
+      const {entityType} = action;
+      if(entityType !== 'comments') return state;
+      const commentId = Object.keys(action.data.entities.comments)[0];
+      const postId = action.data.entities.comments[commentId].parentId;
+      return {
+        ...state,
+        [postId]:{
+          ...state[postId],
+          items: [
+            ...state[postId].items,
+            ...Object.keys(action.data.entities.comments)
+          ]
+        }
+      };
+    default:
+      return state;
+  }
+};
+
+const stagingArea = ( state = initialAppState.stagingArea, action) => {
+  switch (action.type){
+    case ActionTypes.CREATING_ENTITY:
+      return {
+        ...state,
+        isLoading: true,
+        loadingAction: action.loadingAction,
+        items: [...state.items, action.id]
+      };
+    case ActionTypes.ENTITY_CREATED:
+      const entityId = Object.keys(action.data.entities[action.entityType])[0];
+      return {
+        ...state,
+        isLoading: false,
+        loadingAction: '',
+        items: state.items.filter(id => id !== entityId)
+      };
     default:
       return state;
   }
@@ -256,7 +326,8 @@ const commentsByPost = (state = initialAppState.commentsByPost, action) => {
 const rootReducer = combineReducers({
   entities,
   postsByCategory,
-  commentsByPost
+  commentsByPost,
+  stagingArea
 });
 
 export default rootReducer;

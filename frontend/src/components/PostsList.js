@@ -20,20 +20,29 @@ class PostsList extends Component {
       selectedCategory: this.props.match && this.props.match.params && this.props.match.params.category
     })
   }
-
+  
   componentDidMount(){
     this.setState((prevState, props) => ({
+      selectedCategory: props.match && props.match.params && props.match.params.category,
       posts: sort(props.posts, prevState.sortBy),
       isFetching: props.posts.length === 0 && props.isFetching // no need to show loading if there is ady preloaded posts
-    }));
-    this.props.getPosts(this.state.selectedCategory)
+    }), () => this.props.getPosts(this.state.selectedCategory));
+
   }
 
   componentWillReceiveProps(nextProps){
+    const nextCategory = nextProps.match && nextProps.match.params && nextProps.match.params.category;
+    const categoryChanged = this.state.selectedCategory !== (nextCategory);
+
     this.setState((prevState, props) => ({
       posts: sort(nextProps.posts, prevState.sortBy),
-      isFetching: nextProps.isFetching && prevState.posts.length === 0
-    }));
+      isFetching: nextProps.isFetching && prevState.posts.length === 0,
+      selectedCategory: nextProps.match && nextProps.match.params && nextProps.match.params.category
+    }), () => {
+      if(categoryChanged){
+        this.props.getPosts(this.state.selectedCategory)
+      }
+    });
   }
 
   sortChange(sortBy){
@@ -68,7 +77,11 @@ class PostsList extends Component {
         </div>
         }
 
-        {isFetching && <ReactLoading type="spinningBubbles" color='blue'/>}
+        {isFetching && (
+          <div className="Loading-cont">
+            <ReactLoading type="spinningBubbles" color='#61DAF9'/>
+          </div>
+        )}
 
       </div>
     )

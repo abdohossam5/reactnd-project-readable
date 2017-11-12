@@ -259,12 +259,13 @@
       flex-wrap: no-wrap;
       width: 70%; }
       .Comments-list .Header-cont .Action-Cont .Action-Title {
-        color: #61DAF9;
+        color: white;
         font-size: 15px;
         margin: 0 10px 0 0; }
       .Comments-list .Header-cont .Action-Cont .Select-control {
         background: aliceblue;
-        height: 19px; }
+        height: 19px;
+        color: black; }
 
 .Comments-cont {
   width: 100%;
@@ -405,5 +406,15 @@
 
 .close {
   color: white; }
+
+.Loading-cont {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: no-wrap;
+  width: 100%;
+  height: 100%;
+  margin: auto; }
 
 /*# sourceMappingURL=App.css.map */

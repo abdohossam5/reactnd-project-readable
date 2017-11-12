@@ -125,3 +125,27 @@ export const fetchPostComments = (postId) => (dispatch, getState) => {
 const shouldFetchComments = (state, postId) => {
     return state.commentsByPost[postId] ? !state.commentsByPost[postId].isFetching : true;
 };
+
+export const CREATING_ENTITY = "CREATING_ENTITY";
+export const creatingEntity = (loadingAction, id) => ({
+  type: CREATING_ENTITY,
+  loadingAction,
+  id
+});
+
+export const ENTITY_CREATED = 'ENTITY_CREATED';
+export const entityCreated = (loadingAction, data) => ({
+  type: ENTITY_CREATED,
+  entityType: loadingAction === 'addPost' ? 'posts': 'comments',
+  data
+});
+
+export const createEntity = (data) => (dispatch) => {
+  const {loadingAction, category ='', id} = data;
+  dispatch(creatingEntity(loadingAction, id));
+  data.entityType = loadingAction === 'addPost' ? 'posts': 'comments';
+  return Api.createEntity(data)
+    .then(({entities}) => {
+      dispatch(entityCreated(loadingAction, {entities, category}))
+    })
+};

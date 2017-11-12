@@ -12,10 +12,6 @@ class PostDetails extends Component {
     this.props.history.replace('/')
   }
 
-  submitComment(data){
-    console.log(data);
-  }
-
   render(){
     const {postId} = this.props.match.params;
 
@@ -37,8 +33,8 @@ class PostDetails extends Component {
             <div className="fTitle">Post Comment</div>
           </div>
           <EntityFrom
-            fields={['author']}
-            onSubmit={(data) => this.submitComment(data)}
+            action="addComment"
+            parentId={postId}
           />
         </div>
       </div>

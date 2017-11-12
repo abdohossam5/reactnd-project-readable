@@ -9,7 +9,6 @@ import Home from '../components/Home';
 import Navigation from '../components/Navigation';
 import EntityFrom from '../components/EntityForm'
 import {Button, Glyphicon, Modal} from 'react-bootstrap';
-import * as ActionTypes from '../actions';
 
 
 
@@ -18,11 +17,6 @@ class App extends Component {
   state = {
     showModal: false
   };
-
-  componentDidMount(){
-    // load the categories every time component is loaded in case there are newly added ones
-    this.props.getCategories();
-  }
 
   openModal(){
     this.setState({
@@ -36,16 +30,9 @@ class App extends Component {
     })
   }
 
-  submitPost(data){
-    console.log(data);
-    this.closeModal()
-  }
-
   render() {
 
     const {showModal} = this.state;
-
-    const {categories} = this.props;
 
     return (
       <div className="Root-cont">
@@ -70,9 +57,8 @@ class App extends Component {
           </Modal.Header>
           <Modal.Body>
             <EntityFrom
-              onSubmit={(data => this.submitPost(data))}
-              fields={['author','title', 'category']}
-              categories={categories}/>
+              onComplete={(() => this.closeModal())}
+              action="addPost" />
           </Modal.Body>
         </Modal>
 
@@ -81,17 +67,6 @@ class App extends Component {
   }
 }
 
-
-const mapStateToProps = ({entities}) => (
-  {
-    categories: entities.categories.allIds
-  }
-);
-
-const mapDispatchToProps = (dispatch) => ({
-  getCategories: () => dispatch(ActionTypes.fetchCategories()),
-});
-
 // used withRouter to overcome update blocking
 // https://github.com/ReactTraining/react-router/blob/master/packages/react-router/docs/guides/blocked-updates.md
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(App));
+export default withRouter(connect()(App));

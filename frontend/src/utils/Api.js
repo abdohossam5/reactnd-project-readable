@@ -64,7 +64,7 @@ export const deleteEntity = ({id, entityType}) => {
     method: 'DELETE'
   })
     .then(res => res.json())
-    .then(post => normalize(post, entityType === 'posts'? postSchema : commentSchema))
+    .then(data => normalize(data, entityType === 'posts'? postSchema : commentSchema))
 };
 
 // get Comments for a specific post
@@ -72,4 +72,18 @@ export const getPostComments = (postId) => {
   return fetch(`${api}/posts/${postId}/comments`, {headers})
     .then(res => res.json())
     .then(comments => normalize(comments, [commentSchema]))
+};
+
+export const createEntity = (postData) => {
+  const {entityType} = postData;
+  return fetch(`${api}/${entityType}`, {
+    headers,
+    method: 'POST',
+    body: JSON.stringify({
+      ...postData,
+      timestamp: Date.now()
+    })
+  })
+    .then(res => res.json())
+    .then(data => normalize(data, entityType === 'posts'? postSchema : commentSchema))
 };
