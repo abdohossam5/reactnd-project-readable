@@ -1,6 +1,7 @@
 ## Description
 
-This project is part of udacity react nanodegree program. It is a content and comment web app with features that allow users to:
+This project is part of udacity react nanodegree program.
+ It is a content and comment web app with features that allow users to:
     1. post content to categories.
     2. comment on all posts
     3. edit posts
