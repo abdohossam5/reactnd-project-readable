@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import {connect} from 'react-redux';
 import PropTypes from 'prop-types'
 import * as ActionTypes from '../actions';
-import ReactModal from 'react-modal';
 import ReactLoading from 'react-loading';
 import {getReadableDate} from "../utils/Helpers";
 import { Button, Glyphicon, Modal } from 'react-bootstrap';
@@ -65,34 +64,29 @@ class Comment extends Component{
           <p>{comment.body}</p>
         </div>
 
-        <ReactModal
-          style={{
-            content:{
-              maxHeight: '100px',
-              maxWidth: '50%',
-              top: '25%',
-              right: '25%',
-              left: '25%'
-            }
-          }}
-          isOpen = {isConfirmationModalOpen}
-          contentLabel="Confirmation"
-          onRequestClose={() => this.closeConfirmationModal()}
-          shouldCloseOnOverlayClick={false}
+        <Modal
+          show={isConfirmationModalOpen}
+          aria-labelledby="contained-modal-title"
+          onHide={() => this.closeConfirmationModal()}
         >
-          {!isDeleting && (
-            <div>
-              <p>Are you sure you want to delete this Comment?. This action can not be undone.</p>
-              <button onClick={() => this.closeConfirmationModal()}>CANCEL</button>
-              <button onClick={() => this.deleteComment()}>Confirm</button>
-            </div>
-          )}
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title">Confirmation</Modal.Title>
+          </Modal.Header>
+          {!isDeleting && (<Modal.Body style={{
+            color: 'white'
+          }}>
+            Are you sure you want to delete this comment?. This action can not be undone.
+          </Modal.Body>)}
+          {!isDeleting && (<Modal.Footer>
+            <Button onClick={() => this.closeConfirmationModal()}>Cancel</Button>
+            <Button bsStyle="danger" onClick={() => this.deleteComment()}>Confirm</Button>
+          </Modal.Footer>)}
 
           {isDeleting && (
-            <ReactLoading type="spinningBubbles" color='blue'/>
+            <ReactLoading className="Loading-cont" type="spinningBubbles" color='blue'/>
           )}
 
-        </ReactModal>
+        </Modal>
 
         <Modal bsSize="large" aria-labelledby="contained-modal-title-sm"  show={isEditing} onHide={() => this.toggleEditModal()}>
           <Modal.Header closeButton>
