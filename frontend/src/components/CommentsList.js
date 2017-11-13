@@ -62,12 +62,15 @@ class CommentsList extends Component {
             </div>
           </div>
 
-          <div className="Comments-cont">{comments.map(c => (
+          {comments.length && (<div className="Comments-cont">{comments.map(c => (
             <Comment
               key={c.id}
               comment={c}
             />
-          ))}</div>
+          ))}</div>)}
+          {comments.length === 0 && (
+            <div className="placeHolder"> Be The First to Comment</div>
+          )}
         </div>) :
         (<ReactLoading type="spinningBubbles" color='blue'/>)
     )

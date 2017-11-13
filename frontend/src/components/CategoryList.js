@@ -29,12 +29,14 @@ class CategoryList extends Component {
 
   render(){
     const {categories = [], isFetching} = this.state;
+    const {location} = this.props;
+
     return (
       <div className="Nav-items-cont">
 
         {!isFetching ?
           ( <div className="Nav-items-cont">{categories.map(c => (
-            <Link key={c} className="Nav-item" to={`/${c}`}>{c}</Link>
+            <Link key={c} className={`Nav-item ${location.pathname.indexOf(c) >= 0 ? 'active': ''}`} to={`/${c}`}>{c}</Link>
           ))}</div>)
           :
           (<ReactLoading color="blue"/>)

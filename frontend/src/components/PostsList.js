@@ -77,6 +77,10 @@ class PostsList extends Component {
         </div>
         }
 
+        {!isFetching && posts.length === 0 && (
+          <div className="placeHolder"> Be The First to Post</div>
+        )}
+
         {isFetching && (
           <div className="Loading-cont">
             <ReactLoading type="spinningBubbles" color='#61DAF9'/>
