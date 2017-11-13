@@ -1,10 +1,24 @@
-# Readable API Server
+## Description
 
-This is the starter project for the final assessment project for Udacity's Redux course where you will build a content and comment web app. Users will be able to post content to predefined categories, comment on their posts and other users' posts, and vote on posts and comments. Users will also be able to edit and delete posts and comments.
+This project is part of udacity react nanodegree program. It is a content and comment web app with features that allow users to:
+    1. post content to categories.
+    2. comment on all posts
+    3. edit posts
+    4. edit comments
+    5. upvote/downvote post
+    6. upvote/downvote comment
 
-This repository includes the code for the backend API Server that you'll use to develop and interact with the front-end portion of the project.
 
-## Start Developing
+## Dependencies
+    1. redux for state management.
+    2. redux-thunk for async actions.
+    3. normalizr to normalize api responses.
+    4. uuid for generating unique ids for new posts/comments and data from api consistent per user
+    5. bootstrap ui
+    6. react-bootstrap ui
+    7. react-loading ui
+
+## Start Developing/Testing
 
 To get started developing right away:
 
