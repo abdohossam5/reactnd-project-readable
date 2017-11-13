@@ -12,7 +12,9 @@ class EntityForm extends Component {
 
   fieldsForAction = {
     addComment: ['author', 'body'],
-    addPost: ['title', 'author', 'body', 'category']
+    addPost: ['title', 'author', 'body', 'category'],
+    editPost: ['title', 'body'],
+    editComment: ['body'],
   };
 
   state = {
@@ -42,6 +44,8 @@ class EntityForm extends Component {
       showAuthor: this.fieldsForAction[this.props.action].indexOf('author') >= 0,
       showTitle: this.fieldsForAction[this.props.action].indexOf('title') >= 0,
       categories: this.props.categories || [],
+      title: this.props.entity ? this.props.entity.title : '',
+      body: this.props.entity ? this.props.entity.body : '',
       id: this.props.id || uuid4()
     });
 
@@ -104,7 +108,14 @@ class EntityForm extends Component {
   handleSubmit(){
     if(!this.isFormValid()) return;
 
-    this.props.createEntity(this.state.fields.reduce((data, field)=>{
+    let submitFn = null;
+    if(this.props.action === 'addPost' || this.props.action === 'addComment'){
+      submitFn = this.props.createEntity
+    } else {
+      submitFn = this.props.editEntity
+    }
+
+    submitFn(this.state.fields.reduce((data, field)=>{
       return {
         ...data,
         [field]: this.state[field],
@@ -195,15 +206,26 @@ EntityForm.propTypes = {
   id: PropTypes.string
 };
 
-const mapStateToProps = ({entities, stagingArea} , {action}) => ({
+const mapStateToProps = ({entities, stagingArea} , {action, id}) => {
+  let entity = null,
+      entityType = '';
+  if(id){
+    entityType = action === 'editPost' ? 'posts' : 'comments';
+    entity = entities[entityType].byId[id]
+  }
+  return {
     categories: entities.categories.allIds,
     isLoading: stagingArea.isLoading && stagingArea.loadingAction === action,
-    stagingItems: stagingArea.items
-});
+    stagingItems: stagingArea.items,
+    entityType,
+    entity
+  }
+};
 
 const mapDispatchToProps = (dispatch) =>({
   getCategories: () => dispatch(ActionTypes.fetchCategories()),
-  createEntity: (data) => dispatch(ActionTypes.createEntity(data))
+  createEntity: (data) => dispatch(ActionTypes.createEntity(data)),
+  editEntity: (data) => dispatch(ActionTypes.editEntity(data))
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(EntityForm);

@@ -7,7 +7,7 @@ import PostsList from '../components/PostsList';
 import PostDetails from '../components/PostDetails';
 import Home from '../components/Home';
 import Navigation from '../components/Navigation';
-import EntityFrom from '../components/EntityForm'
+import EntityForm from '../components/EntityForm'
 import {Button, Glyphicon, Modal} from 'react-bootstrap';
 
 
@@ -56,7 +56,7 @@ class App extends Component {
             <Modal.Title id="contained-modal-title-lg">ADD POST</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <EntityFrom
+            <EntityForm
               onComplete={(() => this.closeModal())}
               action="addPost" />
           </Modal.Body>

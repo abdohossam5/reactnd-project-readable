@@ -5,12 +5,14 @@ import * as ActionTypes from '../actions';
 import ReactModal from 'react-modal';
 import ReactLoading from 'react-loading';
 import {getReadableDate} from "../utils/Helpers";
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon, Modal } from 'react-bootstrap';
+import EntityForm from './EntityForm';
 
 class Comment extends Component{
 
   state = {
-    isConfirmationModalOpen: false
+    isConfirmationModalOpen: false,
+    isEditing: false
   };
 
   showConfirmationModal = () =>{
@@ -33,9 +35,15 @@ class Comment extends Component{
     }, cb)
   }
 
+  toggleEditModal(){
+    this.setState((prevState) => ({
+      isEditing: !prevState.isEditing
+    }))
+  }
+
   render(){
     const {comment, vote} = this.props;
-    const {isConfirmationModalOpen, isDeleting } = this.state;
+    const {isConfirmationModalOpen, isDeleting, isEditing } = this.state;
 
     return (
       <div className="Comment">
@@ -44,9 +52,10 @@ class Comment extends Component{
             <div className="fTitle">{comment.author}</div>
           </div>
           <div className="Action-cont" >
-            <Button className="Action-btn" bsSize="xsmall" bsStyle="success" disabled={comment.isVoting} onClick={() =>  vote(comment.id,'upVote')}>+</Button>
-            <Button className="Action-btn" bsSize="xsmall" bsStyle="danger" disabled={comment.isVoting} onClick={() => vote(comment.id,'downVote')}>-</Button>
-            <Button className="Action-btn" bsSize="xsmall" onClick={() => this.showConfirmationModal(comment.id)}><Glyphicon glyph="remove-circle" /></Button>
+            <Button className="Action-btn" bsSize="xs" bsStyle="success" disabled={comment.isVoting} onClick={() =>  vote(comment.id,'upVote')}><Glyphicon glyph="arrow-up" /></Button>
+            <Button className="Action-btn" bsSize="xs" bsStyle="danger" disabled={comment.isVoting} onClick={() => vote(comment.id,'downVote')}><Glyphicon glyph="arrow-down" /></Button>
+            <Button className="Action-btn delete" bsSize="xs" onClick={() => this.showConfirmationModal(comment.id)}><Glyphicon glyph="trash" /></Button>
+            <Button className="Action-btn" bsSize="xs" bsStyle="warning" onClick={() => this.toggleEditModal()}><Glyphicon glyph="pencil" /></Button>
           </div>
           <p className="Info-text">Date: {getReadableDate(comment.timestamp)} - Comments: {comment.commentCount} - Score: {comment.voteScore}</p>
           {/*<button onClick={}>Edit</button>*/}
@@ -84,6 +93,19 @@ class Comment extends Component{
           )}
 
         </ReactModal>
+
+        <Modal bsSize="large" aria-labelledby="contained-modal-title-sm"  show={isEditing} onHide={() => this.toggleEditModal()}>
+          <Modal.Header closeButton>
+            <Modal.Title id="contained-modal-title-lg">EDIT COMMENT</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <EntityForm
+              onComplete={(() => this.toggleEditModal())}
+              action="editComment"
+              id={comment.id}/>
+          </Modal.Body>
+        </Modal>
+
       </div>
     )
   }

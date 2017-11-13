@@ -74,6 +74,7 @@ export const getPostComments = (postId) => {
     .then(comments => normalize(comments, [commentSchema]))
 };
 
+// create a post or comment
 export const createEntity = (postData) => {
   const {entityType} = postData;
   return fetch(`${api}/${entityType}`, {
@@ -81,6 +82,22 @@ export const createEntity = (postData) => {
     method: 'POST',
     body: JSON.stringify({
       ...postData,
+      timestamp: Date.now()
+    })
+  })
+    .then(res => res.json())
+    .then(data => normalize(data, entityType === 'posts'? postSchema : commentSchema))
+};
+
+// edit a post or a comment
+export const editEntity = (postData) => {
+  const {entityType, body, title} = postData;
+  return fetch(`${api}/${entityType}/${postData.id}`, {
+    headers,
+    method: 'PUT',
+    body: JSON.stringify({
+      body,
+      title,
       timestamp: Date.now()
     })
   })

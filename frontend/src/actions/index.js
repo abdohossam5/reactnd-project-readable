@@ -149,3 +149,28 @@ export const createEntity = (data) => (dispatch) => {
       dispatch(entityCreated(loadingAction, {entities, category}))
     })
 };
+
+export const EDITING_ENTITY = "EDITING_ENTITY";
+export const editingEntity = (loadingAction, id) => ({
+  type: EDITING_ENTITY,
+  loadingAction,
+  id
+});
+
+export const ENTITY_EDITED = 'ENTITY_EDITED';
+export const entityEdited = (loadingAction, data) => ({
+  type: ENTITY_EDITED,
+  entityType: loadingAction === 'editPost' ? 'posts': 'comments',
+  data
+});
+
+
+export const editEntity = (data) => (dispatch) => {
+  const {loadingAction, category ='', id} = data;
+  dispatch(editingEntity(loadingAction, id));
+  data.entityType = loadingAction === 'editPost' ? 'posts': 'comments';
+  return Api.editEntity(data)
+    .then(({entities}) => {
+      dispatch(entityEdited(loadingAction, {entities, category}))
+    })
+};

@@ -6,13 +6,15 @@ import * as ActionTypes from '../actions';
 import ReactModal from 'react-modal';
 import ReactLoading from 'react-loading';
 import {getReadableDate} from "../utils/Helpers";
-import { Button, Glyphicon } from 'react-bootstrap';
+import { Button, Glyphicon, Modal } from 'react-bootstrap';
+import EntityForm from './EntityForm';
 
 class Post extends Component{
 
   state = {
     isConfirmationModalOpen: false,
     isDeletingPost: false,
+    isEditing: false
   };
 
 
@@ -49,9 +51,15 @@ class Post extends Component{
     }, cb)
   }
 
+  toggleEditModal(){
+    this.setState((prevState) => ({
+      isEditing: !prevState.isEditing
+    }))
+  }
+
   render(){
     const {post, viewMode, vote, isFetching} = this.props;
-    const {isConfirmationModalOpen, isDeletingPost } = this.state;
+    const {isConfirmationModalOpen, isDeletingPost, isEditing } = this.state;
 
     return(
       <div className="Post-item">
@@ -68,9 +76,10 @@ class Post extends Component{
               </div>
 
               <div className="Action-cont">
-                  <Button className="Action-btn" bsSize="xsmall" bsStyle="success" disabled={post.isVoting} onClick={() =>  vote(post.id,'upVote')}>+</Button>
-                  <Button className="Action-btn" bsSize="xsmall" bsStyle="danger" disabled={post.isVoting} onClick={() => vote(post.id,'downVote')}>-</Button>
-                  <Button className="Action-btn" onClick={() => this.showConfirmationModal()}><Glyphicon glyph="remove-circle" /></Button>
+                  <Button className="Action-btn" bsStyle="success" disabled={post.isVoting} onClick={() =>  vote(post.id,'upVote')}><Glyphicon glyph="arrow-up" /></Button>
+                  <Button className="Action-btn" bsStyle="danger" disabled={post.isVoting} onClick={() => vote(post.id,'downVote')}><Glyphicon glyph="arrow-down" /></Button>
+                  <Button className="Action-btn delete" onClick={() => this.showConfirmationModal()}><Glyphicon glyph="trash" /></Button>
+                  <Button className="Action-btn" bsStyle="warning" onClick={() => this.toggleEditModal()}><Glyphicon glyph="pencil" /></Button>
               </div>
 
               <p className="Info-text">Author: {post.author} - Date: {getReadableDate(post.timestamp)} - Comments: {post.commentCount} - Score: {post.voteScore}</p>
@@ -83,6 +92,18 @@ class Post extends Component{
                 <p>{post.body}</p>
               </div>
             )}
+
+            <Modal bsSize="large" aria-labelledby="contained-modal-title-sm"  show={isEditing} onHide={() => this.toggleEditModal()}>
+              <Modal.Header closeButton>
+                <Modal.Title id="contained-modal-title-lg">EDIT POST</Modal.Title>
+              </Modal.Header>
+              <Modal.Body>
+                <EntityForm
+                  onComplete={(() => this.toggleEditModal())}
+                  action="editPost"
+                  id={post.id}/>
+              </Modal.Body>
+            </Modal>
           </div>
         )}
 

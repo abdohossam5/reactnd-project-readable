@@ -132,6 +132,7 @@ const entities = (state = initialAppState.entities, action) =>{
             },state.comments.allIds)
         }
       };
+    case ActionTypes.ENTITY_EDITED:
     case ActionTypes.ENTITY_CREATED:
       const {entityType} = action;
       return {
@@ -304,12 +305,14 @@ const commentsByPost = (state = initialAppState.commentsByPost, action) => {
 const stagingArea = ( state = initialAppState.stagingArea, action) => {
   switch (action.type){
     case ActionTypes.CREATING_ENTITY:
+    case ActionTypes.EDITING_ENTITY:
       return {
         ...state,
         isLoading: true,
         loadingAction: action.loadingAction,
         items: [...state.items, action.id]
       };
+    case ActionTypes.ENTITY_EDITED:
     case ActionTypes.ENTITY_CREATED:
       const entityId = Object.keys(action.data.entities[action.entityType])[0];
       return {

@@ -179,9 +179,14 @@
             width: 100%;
             justify-content: flex-start; } }
         .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn {
-          margin-right: 10px; }
+          margin-right: 10px;
+          font-size: 15px; }
           .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn:last-child {
             margin-right: 0; }
+          .Posts-cont .Post-item .Title-cont .Action-cont .Action-btn.delete {
+            background: #ff0000;
+            color: white;
+            border-color: #ff0000; }
       .Posts-cont .Post-item .Title-cont .Info-text {
         width: 100%;
         text-align: start;
@@ -333,6 +338,10 @@
           margin-right: 10px; }
           .Comments-cont .Comment .Title-cont .Action-cont .Action-btn:last-child {
             margin-right: 0; }
+          .Comments-cont .Comment .Title-cont .Action-cont .Action-btn.delete {
+            background: #ff0000;
+            color: white;
+            border-color: #ff0000; }
       .Comments-cont .Comment .Title-cont .Info-text {
         width: 100%;
         text-align: start;
